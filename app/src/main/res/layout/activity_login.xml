@@ -29,7 +29,9 @@
         android:textSize="40px"
         android:gravity="center"
         android:padding="10dp"
-        android:textColor="@color/white"/>
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"/>
 
     <EditText
         android:background="@drawable/rounded_edittext_background"
@@ -42,7 +44,9 @@
         android:textSize="40px"
         android:gravity="center"
         android:padding="10dp"
-        android:textColor="@color/white"/>
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
