@@ -28,7 +28,8 @@
         android:inputType="text"
         android:textSize="40px"
         android:gravity="center"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:textColor="@color/white"/>
 
     <EditText
         android:background="@drawable/rounded_edittext_background"
@@ -40,7 +41,8 @@
         android:inputType="textPassword"
         android:textSize="40px"
         android:gravity="center"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:textColor="@color/white"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
