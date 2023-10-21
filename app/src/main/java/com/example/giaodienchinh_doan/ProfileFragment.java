@@ -3,16 +3,23 @@ package com.example.giaodienchinh_doan;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
     FirebaseAuth auth;
     Button button;
     TextView textView;
+    Button Save;
     FirebaseUser user;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +41,9 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+   EditText name;
+   EditText phone;
+   EditText email;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -65,6 +76,8 @@ public class ProfileFragment extends Fragment {
         }
 
 
+
+
     }
 
 
@@ -75,10 +88,52 @@ public class ProfileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        name= view.findViewById(R.id.username);
+        phone=view.findViewById(R.id.phone);
+        email = view.findViewById(R.id.email);
         // Tìm kiếm nút logout trong view được inflate
         Button buttonLogout = view.findViewById(R.id.LogOut);
+        Save = view.findViewById(R.id.EditProfile);
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  String email = ((EditText) view.findViewById(R.id.email)).getText().toString();*/
 
+
+                // Assume that mAuth is an instance of FirebaseAuth
+                auth=FirebaseAuth.getInstance();
+                FirebaseUser user = auth.getCurrentUser();
+                String uid = user.getUid();
+                String email = user.getEmail();
+                String displayName = name.getText().toString();
+                String phoneNumber =  phone.getText().toString();
+
+// Get a reference to the Firebase Realtime Database
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference usersRef = database.getReference("users");
+
+// Create a User object
+                User newUser = new User(email, displayName, phoneNumber);
+
+// Save the new user with the UID as the key
+                usersRef.child(uid).setValue(newUser)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Data successfully saved
+                                Log.d("TAG", "User information saved successfully");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Error saving data
+                                Log.e("TAG", "Failed to save user information: " + e.getMessage());
+                            }
+                        });
+
+            }
+        });
         // Gán sự kiện click cho nút logout
 
 
