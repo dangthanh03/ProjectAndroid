@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:hint="Username"
+        android:hint="Email"
         android:inputType="text"
         android:textSize="40px"
         android:gravity="center"
