@@ -1,5 +1,6 @@
 package com.example.giaodienchinh_doan;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.giaodienchinh_doan.AnotherNav.FavoriteActivity;
+import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +66,23 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        TextView inbox_field = view.findViewById(R.id.inbox_field);
+        TextView fav_field = view.findViewById(R.id.fav_field);
+        inbox_field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileFragment.this.requireContext(), InboxViewActivity.class);
+                startActivity(intent);
+            }
+        });
+        fav_field.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileFragment.this.requireContext(), FavoriteActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 }
