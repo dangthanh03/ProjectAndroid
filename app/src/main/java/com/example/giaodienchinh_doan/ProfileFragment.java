@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.giaodienchinh_doan.AnotherNav.EditProfileActivity;
 import com.example.giaodienchinh_doan.AnotherNav.FavoriteActivity;
 import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
 
@@ -69,6 +72,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView inbox_field = view.findViewById(R.id.inbox_field);
         TextView fav_field = view.findViewById(R.id.fav_field);
+        Button btn_edit = view.findViewById(R.id.btn_edit);
         inbox_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +84,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProfileFragment.this.requireContext(), FavoriteActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileFragment.this.requireContext(),EditProfileActivity.class);
                 startActivity(intent);
             }
         });

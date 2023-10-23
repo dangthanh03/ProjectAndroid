@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/login_activity.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context=".Login"
+    >
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="119dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo" />
+
+    <EditText
+        android:background="@drawable/rounded_edittext_background"
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:hint="Email"
+        android:inputType="text"
+        android:textSize="40px"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"/>
+
+    <EditText
+        android:background="@drawable/rounded_edittext_background"
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textSize="40px"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textCursorDrawable="@null"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:backgroundTint="#FF4081"
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="5dp"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="25dp" />
+    <LinearLayout
+        android:id="@+id/linearLayoutOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <ImageButton
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Login with Facebook"
+            android:maxWidth="24dp"
+            android:maxHeight="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/fb"
+
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Login with email"
+            android:maxWidth="24dp"
+            android:maxHeight="24dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mail"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="Don't have an account? Register here"
+        android:textColor="#FF4081" />
+
+
+
+</LinearLayout>
