@@ -64,6 +64,4 @@ public class PopularProductsAdapter extends RecyclerView.Adapter<PopularProducts
             popularPrice =itemView.findViewById(R.id.popular_price);
         }
     }
-
-    //note
 }
