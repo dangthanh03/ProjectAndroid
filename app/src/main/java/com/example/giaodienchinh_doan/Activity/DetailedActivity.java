@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.Model.NewProductsModel;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
+import com.example.giaodienchinh_doan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

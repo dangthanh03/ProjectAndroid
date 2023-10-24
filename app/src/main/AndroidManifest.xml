@@ -15,16 +15,16 @@
         android:theme="@style/Theme.GiaoDienChinh_DoAn"
         tools:targetApi="31">
         <activity
-            android:name=".ShowAllActivity"
+            android:name=".Activity.ShowAllActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailedActivity"
+            android:name=".Activity.DetailedActivity"
             android:exported="false" />
         <activity
             android:name=".sampledata.ViewPhotoDetail"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

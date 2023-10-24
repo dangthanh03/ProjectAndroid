@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.giaodienchinh_doan.DetailedActivity;
+import com.example.giaodienchinh_doan.Activity.DetailedActivity;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.example.giaodienchinh_doan.R;
 

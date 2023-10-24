@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Fragment;
 
 
 import android.annotation.SuppressLint;
@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.giaodienchinh_doan.Model.PopularProductsModel;
+import com.example.giaodienchinh_doan.R;
 import com.example.giaodienchinh_doan.sampledata.NewProductsAdapter;
 import com.example.giaodienchinh_doan.Model.NewProductsModel;
-import com.example.giaodienchinh_doan.R;
-import com.example.giaodienchinh_doan.ShowAllActivity;
+import com.example.giaodienchinh_doan.Activity.ShowAllActivity;
+import com.example.giaodienchinh_doan.sampledata.PopularProductsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,10 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
-    RecyclerView newProductRecycleview;
-    TextView newProductsShowAll;
+    RecyclerView newProductRecycleview, popularRecycleView;
+    TextView newProductsShowAll, popularShowAll;
     NewProductsAdapter newProductsAdapter;
     List<NewProductsModel> newProductsModelList;
+    PopularProductsAdapter popularProductsAdapter;
+    List<PopularProductsModel> popularProductsModelList;
     FirebaseFirestore db;
 
     public ShopFragment() {
@@ -48,6 +53,7 @@ public class ShopFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         newProductRecycleview = root.findViewById(R.id.new_product_rec);
+        popularRecycleView = root.findViewById(R.id.popular_rec);
         newProductsShowAll=root.findViewById(R.id.newProducts_see_all);
 
         newProductsShowAll.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +80,32 @@ public class ShopFragment extends Fragment {
                                 NewProductsModel newProductsModel=document.toObject(NewProductsModel.class);
                                 newProductsModelList.add(newProductsModel);
                                 newProductsAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(),""+task.getException(), Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    }
+                });
+
+        //Popular Products
+        popularRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        popularProductsModelList = new ArrayList<>();
+        popularProductsAdapter = new PopularProductsAdapter(getContext(), popularProductsModelList);
+        popularRecycleView.setAdapter(popularProductsAdapter);
+
+        db.collection("PopularProducts")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                PopularProductsModel popularProductsModel=document.toObject(PopularProductsModel.class);
+                                popularProductsModelList.add(popularProductsModel);
+                                popularProductsAdapter.notifyDataSetChanged();
                             }
 
                         } else {

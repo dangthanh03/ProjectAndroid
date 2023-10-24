@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Activity;
 
 
 import android.annotation.SuppressLint;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.giaodienchinh_doan.R;
 import com.example.giaodienchinh_doan.sampledata.ShowAllAdapter;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
