@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.giaodienchinh_doan.R;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

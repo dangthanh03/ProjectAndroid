@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AnotherNav.FavoriteActivity">
+    tools:context=".AnotherNav.CartActivity">
     <TextView
         android:id="@+id/ibox_title"
         android:layout_width="match_parent"

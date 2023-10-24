@@ -3,8 +3,8 @@ package com.example.giaodienchinh_doan;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.giaodienchinh_doan.AnotherNav.EditProfileActivity;
-import com.example.giaodienchinh_doan.AnotherNav.FavoriteActivity;
+import com.example.giaodienchinh_doan.AnotherNav.CartActivity;
 import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
-
-import org.w3c.dom.Text;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +78,7 @@ public class ProfileFragment extends Fragment {
         TextView inbox_field = view.findViewById(R.id.inbox_field);
         TextView fav_field = view.findViewById(R.id.fav_field);
         Button btn_edit = view.findViewById(R.id.btn_edit);
+        TextView name_user = view.findViewById(R.id.name_user);
         inbox_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +89,7 @@ public class ProfileFragment extends Fragment {
         fav_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfileFragment.this.requireContext(), FavoriteActivity.class);
+                Intent intent = new Intent(ProfileFragment.this.requireContext(), CartActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,6 +100,30 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        User userprofile = snapshot.getValue(User.class);
+                        if (userprofile != null && !userprofile.displayName.isEmpty()) {
+                            name_user.setText(userprofile.displayName);
+                        }
+                        else{
+                            name_user.setText("New User");
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Xử lý lỗi nếu có
+                }
+            });
+        }
         return view;
     }
+
+
 }
