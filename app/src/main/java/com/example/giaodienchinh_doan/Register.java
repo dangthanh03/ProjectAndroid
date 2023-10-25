@@ -15,6 +15,12 @@ import android.widget.Toast;
 
 import com.example.giaodienchinh_doan.MainActivity;
 import com.example.giaodienchinh_doan.R;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
@@ -22,12 +28,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Arrays;
+
 public class Register extends AppCompatActivity {
+    private static final String EMAIL = "email";
     EditText textEmail,textPass;
     Button Reg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    CallbackManager callbackManager;
+    LoginButton FbLogin;
 
     public void onStart() {
         super.onStart();
@@ -53,6 +64,7 @@ public class Register extends AppCompatActivity {
         mAuth= FirebaseAuth.getInstance();
         progressBar= findViewById(R.id.progressBar);
         textView=findViewById(R.id.textViewLogin);
+        callbackManager = CallbackManager.Factory.create();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +73,9 @@ public class Register extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
         Reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,5 +115,12 @@ public class Register extends AppCompatActivity {
                         });
             }
         });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
