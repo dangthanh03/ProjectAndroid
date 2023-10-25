@@ -55,8 +55,17 @@ public class ShopFragment extends Fragment {
         newProductRecycleview = root.findViewById(R.id.new_product_rec);
         popularRecycleView = root.findViewById(R.id.popular_rec);
         newProductsShowAll=root.findViewById(R.id.newProducts_see_all);
+        popularShowAll=root.findViewById(R.id.popular_see_all);
 
         newProductsShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), ShowAllActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        popularShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), ShowAllActivity.class);

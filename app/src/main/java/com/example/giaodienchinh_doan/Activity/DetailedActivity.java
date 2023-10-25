@@ -9,9 +9,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.Model.NewProductsModel;
+import com.example.giaodienchinh_doan.Model.PopularProductsModel;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.example.giaodienchinh_doan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,8 +35,12 @@ public class DetailedActivity extends AppCompatActivity {
 
     //New products
     NewProductsModel newProductsModel=null;
+    //Popular products
+    PopularProductsModel popularProductsModel=null;
     //Show all
     ShowAllModel showAllModel=null;
+
+    RecyclerView recyclerView;
 
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -48,8 +54,10 @@ public class DetailedActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
 
         final Object obj = getIntent().getSerializableExtra("detailed");
-        if (obj instanceof NewProductsModel){
-            newProductsModel=(NewProductsModel) obj;
+        if (obj instanceof NewProductsModel) {
+            newProductsModel = (NewProductsModel) obj;
+        }else if (obj instanceof PopularProductsModel){
+            popularProductsModel=(PopularProductsModel) obj;
         }else if(obj instanceof ShowAllModel){
             showAllModel=(ShowAllModel) obj;
         }
@@ -71,6 +79,14 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(newProductsModel.getRating());
             description.setText(newProductsModel.getDescription());
             price.setText(String.valueOf(newProductsModel.getPrice()));
+        }
+        //Popular Products
+        if(popularProductsModel !=null){
+            Glide.with(getApplicationContext()).load(popularProductsModel.getImg_url()).into(detailedImg);
+            name.setText(popularProductsModel.getName());
+            rating.setText(popularProductsModel.getRating());
+            description.setText(popularProductsModel.getDescription());
+            price.setText(String.valueOf(popularProductsModel.getPrice()));
         }
         //Show all
         if(showAllModel !=null){
