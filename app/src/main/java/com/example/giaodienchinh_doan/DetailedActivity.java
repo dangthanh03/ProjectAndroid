@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.Model.NewProductsModel;
+import com.example.giaodienchinh_doan.Model.PopularProductsModel;
+import com.example.giaodienchinh_doan.Model.SearchViewModel;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +36,8 @@ public class DetailedActivity extends AppCompatActivity {
     NewProductsModel newProductsModel=null;
     //Show all
     ShowAllModel showAllModel=null;
-
+    PopularProductsModel productsModel = null;
+    SearchViewModel searchViewModel = null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
@@ -51,6 +54,10 @@ public class DetailedActivity extends AppCompatActivity {
             newProductsModel=(NewProductsModel) obj;
         }else if(obj instanceof ShowAllModel){
             showAllModel=(ShowAllModel) obj;
+        }else if (obj instanceof PopularProductsModel){
+            productsModel = (PopularProductsModel) obj;
+        }else if (obj instanceof SearchViewModel){
+            searchViewModel=(SearchViewModel) obj;
         }
 
         detailedImg=findViewById(R.id.detailed_img);
@@ -79,6 +86,22 @@ public class DetailedActivity extends AppCompatActivity {
             description.setText(showAllModel.getDescription());
             price.setText(String.valueOf(showAllModel.getPrice()));
 
+        }
+        //Popular Products
+        if(productsModel !=null){
+            Glide.with(getApplicationContext()).load(productsModel.getImg_url()).into(detailedImg);
+            name.setText(productsModel.getName());
+            rating.setText(productsModel.getRating());
+            description.setText(productsModel.getDescription());
+            price.setText(String.valueOf(productsModel.getPrice()));
+        }
+        //Search
+        if(searchViewModel !=null){
+            Glide.with(getApplicationContext()).load(searchViewModel.getImgUrl()).into(detailedImg);
+            name.setText(searchViewModel.getName());
+            rating.setText(searchViewModel.getRating());
+            description.setText(searchViewModel.getDescription());
+            price.setText(String.valueOf(searchViewModel.getPrice()));
         }
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override

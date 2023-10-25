@@ -1,6 +1,7 @@
 package com.example.giaodienchinh_doan.AdapterView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giaodienchinh_doan.AnotherNav.InboxAdapter;
+import com.example.giaodienchinh_doan.DetailedActivity;
 import com.example.giaodienchinh_doan.Model.SearchViewModel;
 import com.example.giaodienchinh_doan.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder>  implements Filterable {
@@ -43,6 +46,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         String imgUrl = item.getImgUrl();
         Picasso.get().load(imgUrl).into(holder.iv_search);
         holder.tv_nameSearch.setText(item.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailedActivity.class);
+                intent.putExtra("detailed",list.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
