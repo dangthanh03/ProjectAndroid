@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.giaodienchinh_doan.R;
-import com.example.giaodienchinh_doan.ShopFragment;
+import com.example.giaodienchinh_doan.Fragment.ShopFragment;
 import com.squareup.picasso.Picasso;
 
 public class ViewPhotoDetail extends AppCompatActivity {

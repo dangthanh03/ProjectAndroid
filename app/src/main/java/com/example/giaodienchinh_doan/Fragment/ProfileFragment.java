@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.giaodienchinh_doan.AnotherNav.EditProfileActivity;
 import com.example.giaodienchinh_doan.AnotherNav.CartActivity;
 import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
+import com.example.giaodienchinh_doan.R;
+import com.example.giaodienchinh_doan.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

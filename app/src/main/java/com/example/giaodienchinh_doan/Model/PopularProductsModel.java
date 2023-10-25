@@ -1,23 +1,20 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Model;
 
-import java.io.Serializable;
-
-public class NewProductsModel implements Serializable {
+public class PopularProductsModel {
     String description;
     String name;
     String rating;
     int price;
     String img_url;
+    String brand;
 
-    public NewProductsModel(String description, String name, String rating, int price, String img_url) {
+    public PopularProductsModel(String description, String name, String rating, int price, String img_url, String brand) {
         this.description = description;
         this.name = name;
         this.rating = rating;
         this.price = price;
         this.img_url = img_url;
-    }
-
-    public NewProductsModel(){
+        this.brand = brand;
     }
 
     public String getDescription() {
@@ -59,4 +56,16 @@ public class NewProductsModel implements Serializable {
     public void setImg_url(String img_url) {
         this.img_url = img_url;
     }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public PopularProductsModel() {
+    }
+
 }

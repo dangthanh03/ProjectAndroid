@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Model;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.giaodienchinh_doan.sampledata.Photo;
+import com.example.giaodienchinh_doan.R;
 import com.example.giaodienchinh_doan.sampledata.PhotoAdapter;
 import com.example.giaodienchinh_doan.sampledata.PhotoData;
 import com.example.giaodienchinh_doan.sampledata.ViewPhotoDetail;

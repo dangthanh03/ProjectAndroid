@@ -5,13 +5,32 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shopFragment"
-    tools:context=".ShopFragment">
+    tools:context=".Fragment.ShopFragment">
 
     <LinearLayout
         android:id="@+id/home_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/header_shop"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Shop"
+                android:textSize="30dp"
+                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_toRightOf="@id/header_shop"
+                android:src="@drawable/ic_search_foreground"
+                android:paddingLeft="100dp"/>
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

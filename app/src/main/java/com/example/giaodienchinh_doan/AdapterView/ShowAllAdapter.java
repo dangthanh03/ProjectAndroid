@@ -1,4 +1,4 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.AdapterView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,40 +13,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.DetailedActivity;
-import com.example.giaodienchinh_doan.NewProductsModel;
+import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.example.giaodienchinh_doan.R;
 
 import java.util.List;
 
-public class NewProductsAdapter extends RecyclerView.Adapter<NewProductsAdapter.ViewHolder> {
+public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHolder> {
     private Context context;
-    private List<NewProductsModel> list;
-    public NewProductsAdapter(Context context, List<NewProductsModel> list) {
-        this.context = context;
-        this.list=list;
-    }
+    private List<ShowAllModel> list;
 
+    public ShowAllAdapter(Context context, List<ShowAllModel> list) {
+        this.context = context;
+        this.list = list;
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.new_products,parent,false));
+        return new ViewHolder((LayoutInflater.from(parent.getContext()).inflate(R.layout.show_all_item,parent, false)));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position).getImg_url()).into(holder.newImg);
-        holder.newName.setText(list.get(position).getName());
-        holder.newPrice.setText(String.valueOf(list.get(position).getPrice()));
+        Glide.with(context).load(list.get(position).getImg_url()).into(holder.mItemImage);
+        holder.mCost.setText(String.valueOf(list.get(position).getPrice()));
+        holder.mName.setText(list.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailedActivity.class);
-                intent.putExtra("detailed", list.get(position));
+                intent.putExtra("detailed",list.get(position));
                 context.startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -55,15 +57,16 @@ public class NewProductsAdapter extends RecyclerView.Adapter<NewProductsAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView newImg;
-        TextView newName, newPrice;
+        private ImageView mItemImage;
+        private TextView mCost;
+        private TextView mName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            newImg=itemView.findViewById(R.id.new_img);
-            newName=itemView.findViewById(R.id.new_product_name);
-            newPrice=itemView.findViewById(R.id.new_price);
+            mItemImage=itemView.findViewById(R.id.item_image);
+            mCost=itemView.findViewById(R.id.item_cost);
+            mName=itemView.findViewById(R.id.item_name);
         }
     }
 }
