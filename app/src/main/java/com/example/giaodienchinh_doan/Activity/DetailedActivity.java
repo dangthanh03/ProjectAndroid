@@ -97,39 +97,7 @@ public class DetailedActivity extends AppCompatActivity {
             price.setText(String.valueOf(showAllModel.getPrice()));
 
         }
-        addToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addToCart();
-            }
-        });
-    }
 
-    private void addToCart() {
-        String saveCurrentTime = null, saveCurrentDate;
-        Calendar calForDate= Calendar.getInstance();
-
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd,mm,yyyy");
-        saveCurrentDate=currentDate.format(calForDate.getTime());
-
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        saveCurrentDate=currentTime.format(calForDate.getTime());
-
-        final HashMap<String, Object> cartMap = new HashMap<>();
-        cartMap.put("productName", name.getText().toString());
-        cartMap.put("productPrice", price.getText().toString());
-        cartMap.put("currentTime", saveCurrentTime);
-        cartMap.put("currentDate", saveCurrentDate);
-
-        firestore.collection("AddToCart").document()
-                .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(DetailedActivity.this, "Added to a Cart", Toast.LENGTH_SHORT).show();
-                        finish();
-
-                    }
-                });
 
 
     }
