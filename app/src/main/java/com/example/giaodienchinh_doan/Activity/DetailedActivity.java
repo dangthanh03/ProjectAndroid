@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class DetailedActivity extends AppCompatActivity {
 
     ImageView detailedImg;
-    TextView rating, name, description, price;
+    TextView rating, name, description, price, quantity;
     Button addToCart, buyNow;
     ImageView addItems, removeItems;
 
@@ -40,10 +40,10 @@ public class DetailedActivity extends AppCompatActivity {
     //Show all
     ShowAllModel showAllModel=null;
 
-    RecyclerView recyclerView;
-
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    int totalquantity=1;
+    int totalPrice=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class DetailedActivity extends AppCompatActivity {
         }
 
         detailedImg=findViewById(R.id.detailed_img);
+        quantity=findViewById(R.id.quantity);
         rating=findViewById(R.id.my_rating);
         name=findViewById(R.id.detailed_name);
         description=findViewById(R.id.detailed_desc);
@@ -79,6 +80,7 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(newProductsModel.getRating());
             description.setText(newProductsModel.getDescription());
             price.setText(String.valueOf(newProductsModel.getPrice()));
+            totalPrice=newProductsModel.getPrice() * totalquantity;
         }
         //Popular Products
         if(popularProductsModel !=null){
@@ -87,6 +89,8 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(popularProductsModel.getRating());
             description.setText(popularProductsModel.getDescription());
             price.setText(String.valueOf(popularProductsModel.getPrice()));
+
+            totalPrice=popularProductsModel.getPrice() * totalquantity;
         }
         //Show all
         if(showAllModel !=null){
@@ -96,7 +100,37 @@ public class DetailedActivity extends AppCompatActivity {
             description.setText(showAllModel.getDescription());
             price.setText(String.valueOf(showAllModel.getPrice()));
 
+            totalPrice=showAllModel.getPrice() * totalquantity;
         }
+
+        addItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(totalquantity<10){
+                    totalquantity++;
+                    quantity.setText(String.valueOf(totalquantity));
+                    if(newProductsModel!=null){
+                        totalPrice=newProductsModel.getPrice() * totalquantity;
+                    }
+                    if(popularProductsModel!=null){
+                        totalPrice=popularProductsModel.getPrice() * totalquantity;
+                    }
+                    if(showAllModel!=null){
+                        totalPrice=showAllModel.getPrice() * totalquantity;
+                    }
+                }
+
+            }
+        });
+        removeItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(totalquantity>1){
+                    totalquantity--;
+                    quantity.setText(String.valueOf(totalquantity));
+                }
+            }
+        });
 
 
 

@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="160dp"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:padding="5dp"
-    app:cardCornerRadius="5dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="20dp"
+    android:outlineSpotShadowColor="@color/black">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:orientation="vertical"
         android:background="#EDEDED">
 
         <ImageView
             android:id="@+id/popular_img"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,9 @@
             android:id="@+id/popular_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="Product Name"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -42,7 +44,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@+id/popular_name"
             app:layout_constraintStart_toStartOf="@+id/popular_name"
-            app:layout_constraintTop_toBottomOf="@+id/popular_name">
+            app:layout_constraintTop_toBottomOf="@+id/popular_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/dollar"
@@ -71,5 +75,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

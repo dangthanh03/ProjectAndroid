@@ -33,27 +33,112 @@ public class ShowAllActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_all);
 
+        String brand=getIntent().getStringExtra("brand");
+
         firestore=FirebaseFirestore.getInstance();
         recyclerView=findViewById(R.id.show_all_rec);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-
         showAllModelList=new ArrayList<>();
         showAllAdapter=new ShowAllAdapter(this, showAllModelList);
         recyclerView.setAdapter(showAllAdapter);
 
-        firestore.collection("ShowAll")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot doc :task.getResult().getDocuments()){
-                                ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
-                                showAllModelList.add(showAllModel);
-                                showAllAdapter.notifyDataSetChanged();
+
+
+        if(brand == null || brand.isEmpty()){
+            firestore.collection("ShowAll")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
+        if(brand !=null && brand.equalsIgnoreCase("Nike")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Nike")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
+        if(brand !=null && brand.equalsIgnoreCase("Addidas")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Addidas")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
+        if(brand !=null && brand.equalsIgnoreCase("Converse")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Converse")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
+        if(brand !=null && brand.equalsIgnoreCase("Vans")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Vans")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
+        if(brand !=null && brand.equalsIgnoreCase("Puma")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Puma")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
+                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
+                                    showAllModelList.add(showAllModel);
+                                    showAllAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    });
+        }
     }
 }
