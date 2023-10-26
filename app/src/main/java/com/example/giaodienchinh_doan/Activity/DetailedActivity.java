@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class DetailedActivity extends AppCompatActivity {
 
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+
+
 
         final Object obj = getIntent().getSerializableExtra("detailed");
         if (obj instanceof NewProductsModel) {
