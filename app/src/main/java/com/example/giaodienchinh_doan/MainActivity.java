@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.giaodienchinh_doan.AdapterView.ViewPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.facebook.AccessToken;
 
 public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;

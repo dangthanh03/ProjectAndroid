@@ -4,12 +4,36 @@ import java.io.Serializable;
 
 public class SearchViewModel implements Serializable {
     private String name;
-    private String imgUrl;
+    private String img_url;
     private String description;
     private String rating;
     private int price;
 
     public SearchViewModel(){}
+
+    public SearchViewModel(String name, String img_url, String description, String rating, int price) {
+        this.name = name;
+        this.img_url = img_url;
+        this.description = description;
+        this.rating = rating;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
 
     public String getDescription() {
         return description;
@@ -33,30 +57,5 @@ public class SearchViewModel implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public SearchViewModel(String name, String imgUrl, String description, String rating, int price) {
-        this.name = name;
-        this.imgUrl = imgUrl;
-        this.description = description;
-        this.rating = rating;
-        this.price=price;
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 }

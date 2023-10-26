@@ -40,6 +40,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
     implementation("com.google.firebase:firebase-firestore:24.9.0")
     testImplementation("junit:junit:4.13.2")
+    implementation ("com.facebook.android:facebook-login:latest.release")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation ("com.github.bumptech.glide:glide:4.13.0")
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))

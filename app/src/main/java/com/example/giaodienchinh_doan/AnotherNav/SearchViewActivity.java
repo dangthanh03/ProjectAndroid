@@ -86,7 +86,7 @@ public class SearchViewActivity extends AppCompatActivity {
     }
 
     private void EventChangeListener() {
-        dbFirestore.collection("SearchProduct").orderBy("name", Query.Direction.ASCENDING)
+        dbFirestore.collection("ShowAll").orderBy("name", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -109,4 +109,5 @@ public class SearchViewActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

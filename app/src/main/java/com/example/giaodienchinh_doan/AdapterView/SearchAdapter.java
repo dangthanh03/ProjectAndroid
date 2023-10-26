@@ -43,7 +43,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position) {
         SearchViewModel item = list.get(position);
-        String imgUrl = item.getImgUrl();
+        String imgUrl = item.getImg_url();
         Picasso.get().load(imgUrl).into(holder.iv_search);
         holder.tv_nameSearch.setText(item.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

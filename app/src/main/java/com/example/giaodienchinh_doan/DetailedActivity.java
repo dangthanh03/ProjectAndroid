@@ -97,7 +97,7 @@ public class DetailedActivity extends AppCompatActivity {
         }
         //Search
         if(searchViewModel !=null){
-            Glide.with(getApplicationContext()).load(searchViewModel.getImgUrl()).into(detailedImg);
+            Glide.with(getApplicationContext()).load(searchViewModel.getImg_url()).into(detailedImg);
             name.setText(searchViewModel.getName());
             rating.setText(searchViewModel.getRating());
             description.setText(searchViewModel.getDescription());
