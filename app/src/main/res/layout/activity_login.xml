@@ -69,21 +69,18 @@
 
 
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/FbButton"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
-            android:background="@color/colorAccent"
-            android:contentDescription="Login with Facebook"
-            android:gravity="center"
-            xmlns:facebook="http://schemas.android.com/apk/res-auto"
-            facebook:com_facebook_login_text=" Đăng nhập"
-            android:scaleType="fitCenter"
-
-            tools:ignore="TouchTargetSizeCheck" />
-
-
-
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/FbButton"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:background="@color/colorAccent"
+        android:contentDescription="Login with Facebook"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
+        facebook:com_facebook_login_text=" Đăng nhập"
+        android:scaleType="fitCenter"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/textViewRegister"
