@@ -5,4 +5,16 @@
     <string name="facebook_app_id">644586471189699</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">d75942b4b543f6fccf57731a61bd02d9</string>
+    <string name="size">
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+    </string>
 </resources>

@@ -10,7 +10,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_foreground"
+            >
 
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-black"
+                android:text="Profile"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
         <androidx.cardview.widget.CardView
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -93,10 +109,13 @@
             android:layout_width="155dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/white"
             android:text="Save"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:strokeColor="#000000"
+            app:strokeWidth="2dp" />
+
         <Button
 
             android:id="@+id/LogOut"
@@ -104,9 +123,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/black"
             android:text="Logout"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+
+            android:textSize="20dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp" />
     </LinearLayout>
 </FrameLayout>

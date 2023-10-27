@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giaodienchinh_doan.AnotherNav.SearchViewActivity;
-import com.example.giaodienchinh_doan.AdapterView.NewProductsAdapter;
-import com.example.giaodienchinh_doan.Model.NewProductsModel;
-import com.example.giaodienchinh_doan.AdapterView.PopularProductsAdapter;
+import com.example.giaodienchinh_doan.Model.BrandsModel;
 import com.example.giaodienchinh_doan.Model.PopularProductsModel;
 import com.example.giaodienchinh_doan.R;
+import com.example.giaodienchinh_doan.AdapterView.BrandsAdapter;
+import com.example.giaodienchinh_doan.AdapterView.NewProductsAdapter;
+import com.example.giaodienchinh_doan.Model.NewProductsModel;
 import com.example.giaodienchinh_doan.ShowAllActivity;
+import com.example.giaodienchinh_doan.AdapterView.PopularProductsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,8 +36,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
-    RecyclerView newProductRecycleview, popularRecycleView;
+    RecyclerView brandRecycleview, newProductRecycleview, popularRecycleView;
     TextView newProductsShowAll, popularShowAll;
+    BrandsAdapter brandsAdapter;
+    BrandsModel brandsModel;
+    List<BrandsModel> brandsModelList;
     NewProductsAdapter newProductsAdapter;
     List<NewProductsModel> newProductsModelList;
     PopularProductsAdapter popularProductsAdapter;
@@ -44,7 +49,6 @@ public class ShopFragment extends Fragment {
     ImageView searchIcon;
 
     public ShopFragment() {
-        // Required empty public constructor
     }
 
     @SuppressLint("MissingInflatedId")
@@ -54,9 +58,12 @@ public class ShopFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_shop, container, false);
         db = FirebaseFirestore.getInstance();
-        popularRecycleView = root.findViewById(R.id.popular_rec);
+
+        brandRecycleview=root.findViewById(R.id.rec_brand);
         newProductRecycleview = root.findViewById(R.id.new_product_rec);
+        popularRecycleView = root.findViewById(R.id.popular_rec);
         newProductsShowAll=root.findViewById(R.id.newProducts_see_all);
+        popularShowAll=root.findViewById(R.id.popular_see_all);
         searchIcon = root.findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,16 +80,49 @@ public class ShopFragment extends Fragment {
             }
         });
 
+        popularShowAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), ShowAllActivity.class);
+                startActivity(intent);
+            }
+        });
+        //Brands
+        brandRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        brandsModelList = new ArrayList<>();
+        brandsAdapter = new BrandsAdapter(getContext(), brandsModelList);
+        brandRecycleview.setAdapter(brandsAdapter);
+        db.collection("Brands")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                BrandsModel brandsModel=document.toObject(BrandsModel.class);
+                                brandsModelList.add(brandsModel);
+                                brandsAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(),""+task.getException(), Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    }
+                });
+
+
         //New Products
         newProductRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         newProductsModelList = new ArrayList<>();
         newProductsAdapter = new NewProductsAdapter(getContext(),newProductsModelList);
         newProductRecycleview.setAdapter(newProductsAdapter);
 
+
         db.collection("NewProducts")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
@@ -99,6 +139,7 @@ public class ShopFragment extends Fragment {
                         }
                     }
                 });
+
         //Popular Products
         popularRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         popularProductsModelList = new ArrayList<>();
@@ -126,5 +167,6 @@ public class ShopFragment extends Fragment {
                 });
 
         return root;
+
     }
 }

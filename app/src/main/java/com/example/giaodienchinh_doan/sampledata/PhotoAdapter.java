@@ -51,7 +51,7 @@ public class PhotoAdapter extends BaseAdapter {
         else {
             dataView = (MyView)view.getTag();
         }
-        Picasso.get().load(photo_list.get(i).getImgSrc()).resize(300,400).centerCrop().into(dataView.iv_photo);
+        Picasso.get().load(photo_list.get(i).getImgSrc()).resize(1080,1440).centerCrop().into(dataView.iv_photo);
         dataView.tv_caption.setText(photo_list.get(i).getPhotoTitle());
         return view;
     }

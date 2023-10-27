@@ -4,17 +4,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.Model.NewProductsModel;
 import com.example.giaodienchinh_doan.Model.PopularProductsModel;
-import com.example.giaodienchinh_doan.Model.SearchViewModel;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
+import com.example.giaodienchinh_doan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,18 +32,21 @@ import java.util.HashMap;
 public class DetailedActivity extends AppCompatActivity {
 
     ImageView detailedImg;
-    TextView rating, name, description, price;
+    TextView rating, name, description, price, quantity;
     Button addToCart, buyNow;
     ImageView addItems, removeItems;
 
     //New products
     NewProductsModel newProductsModel=null;
+    //Popular products
+    PopularProductsModel popularProductsModel=null;
     //Show all
     ShowAllModel showAllModel=null;
-    PopularProductsModel productsModel = null;
-    SearchViewModel searchViewModel = null;
+
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    int totalquantity=1;
+    int totalPrice=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +56,19 @@ public class DetailedActivity extends AppCompatActivity {
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
 
+
+
         final Object obj = getIntent().getSerializableExtra("detailed");
-        if (obj instanceof NewProductsModel){
-            newProductsModel=(NewProductsModel) obj;
+        if (obj instanceof NewProductsModel) {
+            newProductsModel = (NewProductsModel) obj;
+        }else if (obj instanceof PopularProductsModel){
+            popularProductsModel=(PopularProductsModel) obj;
         }else if(obj instanceof ShowAllModel){
             showAllModel=(ShowAllModel) obj;
-        }else if (obj instanceof PopularProductsModel){
-            productsModel = (PopularProductsModel) obj;
-        }else if (obj instanceof SearchViewModel){
-            searchViewModel=(SearchViewModel) obj;
         }
 
         detailedImg=findViewById(R.id.detailed_img);
+        quantity=findViewById(R.id.quantity);
         rating=findViewById(R.id.my_rating);
         name=findViewById(R.id.detailed_name);
         description=findViewById(R.id.detailed_desc);
@@ -77,6 +85,17 @@ public class DetailedActivity extends AppCompatActivity {
             rating.setText(newProductsModel.getRating());
             description.setText(newProductsModel.getDescription());
             price.setText(String.valueOf(newProductsModel.getPrice()));
+            totalPrice=newProductsModel.getPrice() * totalquantity;
+        }
+        //Popular Products
+        if(popularProductsModel !=null){
+            Glide.with(getApplicationContext()).load(popularProductsModel.getImg_url()).into(detailedImg);
+            name.setText(popularProductsModel.getName());
+            rating.setText(popularProductsModel.getRating());
+            description.setText(popularProductsModel.getDescription());
+            price.setText(String.valueOf(popularProductsModel.getPrice()));
+
+            totalPrice=popularProductsModel.getPrice() * totalquantity;
         }
         //Show all
         if(showAllModel !=null){
@@ -86,57 +105,76 @@ public class DetailedActivity extends AppCompatActivity {
             description.setText(showAllModel.getDescription());
             price.setText(String.valueOf(showAllModel.getPrice()));
 
-        }
-        //Popular Products
-        if(productsModel !=null){
-            Glide.with(getApplicationContext()).load(productsModel.getImg_url()).into(detailedImg);
-            name.setText(productsModel.getName());
-            rating.setText(productsModel.getRating());
-            description.setText(productsModel.getDescription());
-            price.setText(String.valueOf(productsModel.getPrice()));
-        }
-        //Search
-        if(searchViewModel !=null){
-            Glide.with(getApplicationContext()).load(searchViewModel.getImg_url()).into(detailedImg);
-            name.setText(searchViewModel.getName());
-            rating.setText(searchViewModel.getRating());
-            description.setText(searchViewModel.getDescription());
-            price.setText(String.valueOf(searchViewModel.getPrice()));
+            totalPrice=showAllModel.getPrice() * totalquantity;
         }
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addToCart();
             }
+
+            private void addToCart() {
+                String saveCurrentTime, saveCurrentDate;
+                Calendar calForDate = Calendar.getInstance();
+                SimpleDateFormat currentDate = new SimpleDateFormat("dd, mm,yyyy");
+                saveCurrentDate = currentDate.format(calForDate.getTime());
+
+                SimpleDateFormat currentTime =new SimpleDateFormat("HH:mm:ss a");
+                saveCurrentTime=currentTime.format(calForDate.getTime());
+
+                final HashMap<String, Object> cartMap = new HashMap<>();
+
+                cartMap.put("productName", name.getText().toString());
+                cartMap.put("productPrice", price.getText().toString());
+                cartMap.put("currentTime", saveCurrentTime);
+                cartMap.put("currentDate", saveCurrentDate);
+
+                firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
+                        .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                Toast.makeText(DetailedActivity.this, "Add to Cart", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+            }
         });
-    }
 
-    private void addToCart() {
-        String saveCurrentTime = null, saveCurrentDate;
-        Calendar calForDate= Calendar.getInstance();
-
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd,mm,yyyy");
-        saveCurrentDate=currentDate.format(calForDate.getTime());
-
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        saveCurrentDate=currentTime.format(calForDate.getTime());
-
-        final HashMap<String, Object> cartMap = new HashMap<>();
-        cartMap.put("productName", name.getText().toString());
-        cartMap.put("productPrice", price.getText().toString());
-        cartMap.put("currentTime", saveCurrentTime);
-        cartMap.put("currentDate", saveCurrentDate);
-
-        firestore.collection("AddToCart").document()
-                .collection("User").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(DetailedActivity.this, "Added to a Cart", Toast.LENGTH_SHORT).show();
-                        finish();
-
+        addItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(totalquantity<10){
+                    totalquantity++;
+                    quantity.setText(String.valueOf(totalquantity));
+                    if(newProductsModel!=null){
+                        totalPrice=newProductsModel.getPrice() * totalquantity;
                     }
-                });
+                    if(popularProductsModel!=null){
+                        totalPrice=popularProductsModel.getPrice() * totalquantity;
+                    }
+                    if(showAllModel!=null){
+                        totalPrice=showAllModel.getPrice() * totalquantity;
+                    }
+                }
 
+            }
+        });
+        removeItems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(totalquantity>1){
+                    totalquantity--;
+                    quantity.setText(String.valueOf(totalquantity));
+                }
+            }
+        });
+        Toolbar toolbar = findViewById(R.id.toolbar_detail);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 }

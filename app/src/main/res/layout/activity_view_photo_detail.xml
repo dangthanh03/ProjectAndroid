@@ -14,6 +14,14 @@
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
             android:padding="10dp"></ImageView>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_viewPhotoDetail"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            app:navigationIcon="@drawable/ic_arrow_foreground"
+            android:background="@drawable/nav_bottom_rounded_shape"/>
         <TextView
             android:id="@+id/tv_detail_title"
             android:layout_marginTop="20dp"
@@ -27,13 +35,13 @@
         </TextView>
         <TextView
             android:id="@+id/shop_now_btn"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginBottom="40dp"
             android:text="Shop Now"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="30dp"
             android:layout_below="@id/iv_detail"
             android:layout_toRightOf="@id/tv_detail_title"
             android:gravity="center"
