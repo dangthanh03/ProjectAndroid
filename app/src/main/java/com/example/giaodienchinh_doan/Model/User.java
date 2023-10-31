@@ -1,7 +1,9 @@
-package com.example.giaodienchinh_doan;
+package com.example.giaodienchinh_doan.Model;
 
 public class User {
+    public String id;
     public String email;
+    public String token;
     public String displayName;
     public String phoneNumber;
 
@@ -9,14 +11,22 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String email, String displayName, String phoneNumber) {
+    public User(String email, String displayName, String phoneNumber,String id,String token) {
+        this.id = id;
         this.email = email;
         this.displayName = displayName;
         this.phoneNumber = phoneNumber;
+        this.token= token;
     }
 
     public String getEmail() {
         return email;
+    }
+    public String getID() {
+        return id;
+    }
+    public String getToken() {
+        return token;
     }
 
     public void setEmail(String email) {

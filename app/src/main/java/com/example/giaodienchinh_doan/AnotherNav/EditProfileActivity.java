@@ -3,17 +3,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.giaodienchinh_doan.Login;
 import com.example.giaodienchinh_doan.R;
-import com.example.giaodienchinh_doan.User;
+import com.example.giaodienchinh_doan.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 DatabaseReference usersRef = database.getReference("users");
 
                 // Tạo một đối tượng User mới
-                User newUser = new User(mail, displayName, phoneNumber);
+                User newUser = new User(mail, displayName, phoneNumber,user.getUid(),"FCM");
 
                 // Lưu thông tin người dùng vào cơ sở dữ liệu Firebase
                 usersRef.child(uid).setValue(newUser)

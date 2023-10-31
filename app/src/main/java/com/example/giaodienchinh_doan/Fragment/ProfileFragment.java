@@ -16,7 +16,7 @@ import com.example.giaodienchinh_doan.AnotherNav.EditProfileActivity;
 import com.example.giaodienchinh_doan.AnotherNav.CartActivity;
 import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
 import com.example.giaodienchinh_doan.R;
-import com.example.giaodienchinh_doan.User;
+import com.example.giaodienchinh_doan.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
