@@ -75,6 +75,7 @@ public class InboxViewActivity extends AppCompatActivity implements UserListener
     intent.putExtra("user_email", user.email);
     intent.putExtra("user_name", user.displayName);
     intent.putExtra("user_Id", user.id);
+    intent.putExtra("user_Img", user.getI());
     startActivity(intent);
     finish();
     }

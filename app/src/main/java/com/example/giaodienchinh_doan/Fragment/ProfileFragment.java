@@ -6,12 +6,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.giaodienchinh_doan.AnotherNav.EditProfileActivity;
 import com.example.giaodienchinh_doan.AnotherNav.CartActivity;
 import com.example.giaodienchinh_doan.AnotherNav.InboxViewActivity;
@@ -31,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,6 +74,8 @@ public class ProfileFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
     }
 
@@ -81,6 +88,13 @@ public class ProfileFragment extends Fragment {
         TextView fav_field = view.findViewById(R.id.fav_field);
         Button btn_edit = view.findViewById(R.id.btn_edit);
         TextView name_user = view.findViewById(R.id.name_user);
+        ImageView ava = view.findViewById(R.id.imv_avatar);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+
+
         inbox_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +116,7 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             DatabaseReference database = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
             database.addValueEventListener(new ValueEventListener() {
@@ -112,6 +126,8 @@ public class ProfileFragment extends Fragment {
                         User userprofile = snapshot.getValue(User.class);
                         if (userprofile != null && !userprofile.displayName.isEmpty()) {
                             name_user.setText(userprofile.displayName);
+                            Glide.with(ProfileFragment.this).load(userprofile.getI()).into(ava);
+
                         }
                         else{
                             name_user.setText("New User");

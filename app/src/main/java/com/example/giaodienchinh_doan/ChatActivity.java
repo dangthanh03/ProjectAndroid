@@ -3,19 +3,25 @@ package com.example.giaodienchinh_doan;
 import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.AdapterView.ChatAdapter;
+import com.example.giaodienchinh_doan.Listener.ImageUploadCallback;
 import com.example.giaodienchinh_doan.Model.ChatMessage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,33 +48,45 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
+    private static int PICK_IMAGE_REQUEST=1;
     ProgressBar progressBar;
     RecyclerView ChatRec;
     String Id;
     String Email;
     String Name;
     TextView NameView;
+    String Avatar;
     private ChatAdapter chatAdapter;
     private FirebaseFirestore database;
     private List<ChatMessage> chatMessages;
     FirebaseFirestore firestore;
     String sender;
     EditText MessInput;
-
-
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_layout);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       imageView = findViewById(R.id.ImageSentButton);
+       imageView.setOnClickListener(v -> openFileChooser());
+
+        ImageView chatAva = findViewById(R.id.avaImgChat);
+
 
         ChatRec = findViewById(R.id.Chat_Recycler);
         sender =user.getUid().toString();
         Email = getIntent().getStringExtra("user_email");
+        Avatar = getIntent().getStringExtra("user_Img");
         Name = getIntent().getStringExtra("user_name");
         Id = getIntent().getStringExtra("user_Id");
         NameView = findViewById(R.id.nameUserChat);
         NameView.setText(Name);
+        Glide.with(this)
+                .load(Avatar)
+                .override(30, 30) // Điều chỉnh kích thước ở đây theo nhu cầu của bạn
+                .centerCrop()
+                .into(chatAva);
 
 
 
@@ -81,6 +101,51 @@ public class ChatActivity extends AppCompatActivity {
         loadMessages();
     }
 
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            // Hiển thị ảnh được chọn lên ImageView
+          uploadImage(imageUri);
+        }
+    }
+
+
+    private void uploadImage(Uri imageUri) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+
+
+        if (imageUri != null) {
+            StorageReference imagesRef = storageRef.child("images/" + imageUri.getLastPathSegment());
+            imagesRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Handle success
+                        imagesRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            // Lấy URL từ ảnh tải lên
+                            String imageUrl = uri.toString();
+                            Log.d("Link has been uploaded : ", imageUrl);
+                            sendMessagePic(imageUrl);
+                            Log.d(TAG, "Upload successful");
+
+                        }).addOnFailureListener(e -> Log.d(TAG, "Failed to get download URL"));
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Handle any errors
+                        Log.d(TAG, "Upload failed");
+                    });
+        }
+    }
 
 
 
@@ -106,6 +171,35 @@ public class ChatActivity extends AppCompatActivity {
         message.put("receiverId", Id);
         message.put("message", mess);
         message.put("dateTime", new Date());
+        message.put("img", null);
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Chats")
+                .add(message)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    MessInput.setText("");
+                    // Tải lại tin nhắn sau khi gửi thành công
+                    loadMessages();
+
+                })
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+    }
+
+
+    public void sendMessagePic(String url) {
+        MessInput = findViewById(R.id.message_input);
+        String mess = MessInput.getText().toString();
+
+
+
+        HashMap<String, Object> message = new HashMap<>();
+        message.put("senderId", sender);
+        message.put("receiverId", Id);
+        message.put("message", null);
+        message.put("dateTime", new Date());
+        message.put("img", url);
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

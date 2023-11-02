@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giaodienchinh_doan.Model.ChatMessage;
 import com.example.giaodienchinh_doan.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final String ReceiverId;
     private static final int VIEW_TYPE_SENT = 1;
     private static final int VIEW_TYPE_RECEIVED = 2;
+    private static final int VIEW_TYPE_SENT_IMAGE = 3;
+    private static final int VIEW_TYPE_RECEIVED_IMAGE = 4;
 
     public ChatAdapter(List<ChatMessage> chatMessages, String senderId,String Receiver) {
         this.chatMessages = chatMessages;
@@ -36,36 +40,67 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
+
         if (viewType == VIEW_TYPE_SENT) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_sent_message, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_sent_message, parent, false);
             return new SentMessageViewHolder(view);
-        } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_receive_mess, parent, false);
+        } else if (viewType == VIEW_TYPE_SENT_IMAGE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_sent, parent, false);
+            return new SentImageViewHolder(view);
+        } else if (viewType == VIEW_TYPE_RECEIVED) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_receive_mess, parent, false);
             return new ReceivedMessageViewHolder(view);
+        } else if (viewType == VIEW_TYPE_RECEIVED_IMAGE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_receive, parent, false);
+            return new ReceivedImageViewHolder(view);
         }
+        return null;
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ChatMessage chatMessage = chatMessages.get(position);
+
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
             SentMessageViewHolder sentViewHolder = (SentMessageViewHolder) holder;
             sentViewHolder.textMessage.setText(chatMessage.message);
             sentViewHolder.textDateTime.setText(getReadableDateTime(chatMessage.dateTime));
-        } else {
+
+        } else if (getItemViewType(position) == VIEW_TYPE_RECEIVED) {
             ReceivedMessageViewHolder receivedViewHolder = (ReceivedMessageViewHolder) holder;
             receivedViewHolder.textMessage.setText(chatMessage.message);
             receivedViewHolder.textDateTime.setText(getReadableDateTime(chatMessage.dateTime));
+
+        }else if (getItemViewType(position) == VIEW_TYPE_SENT_IMAGE) {
+            SentImageViewHolder sentViewHolder = (SentImageViewHolder) holder;
+            Picasso.get().load(chatMessage.img).into(sentViewHolder.imageView); // Thay imageView bằng view tương ứng
+            sentViewHolder.textDateTime.setText(getReadableDateTime(chatMessage.dateTime));
+
+        }else if (getItemViewType(position) == VIEW_TYPE_RECEIVED_IMAGE) {
+            ReceivedImageViewHolder receivedImageViewHolder = (ReceivedImageViewHolder) holder;
+            Picasso.get().load(chatMessage.img).into(receivedImageViewHolder.imageView); // Thay imageView bằng view tương ứng
+            receivedImageViewHolder.textDateTime.setText(getReadableDateTime(chatMessage.dateTime));
+
         }
     }
 
+
+
     @Override
     public int getItemViewType(int position) {
-        if (chatMessages.get(position).senderId.equals(senderId)) {
-            return VIEW_TYPE_SENT;
+        if (chatMessages.get(position).img != null) {
+            if (chatMessages.get(position).senderId.equals(senderId)) {
+                return VIEW_TYPE_SENT_IMAGE;
+            } else {
+                return VIEW_TYPE_RECEIVED_IMAGE;
+            }
         } else {
-            return VIEW_TYPE_RECEIVED;
+            if (chatMessages.get(position).senderId.equals(senderId)) {
+                return VIEW_TYPE_SENT;
+            } else {
+                return VIEW_TYPE_RECEIVED;
+            }
         }
     }
 
@@ -84,6 +119,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+
     static class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage, textDateTime;
 
@@ -91,6 +127,28 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             textMessage = itemView.findViewById(R.id.textMessageReceive);
             textDateTime = itemView.findViewById(R.id.textDateTimeReceive);
+        }
+
+
+    }
+    static class SentImageViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView textDateTime;
+
+        SentImageViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.ImageMessSent); // Thay R.id.imageViewSent bằng id tương ứng trong layout XML
+            textDateTime = itemView.findViewById(R.id.textDateTimeSent); // Thay R.id.textDateTimeSent bằng id tương ứng trong layout XML
+        }
+    }
+    static class ReceivedImageViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+        TextView textDateTime;
+
+        ReceivedImageViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.ImageMessReceive); // Thay R.id.imageViewReceive bằng id tương ứng trong layout XML
+            textDateTime = itemView.findViewById(R.id.textDateTimeReceive); // Thay R.id.textDateTimeReceive bằng id tương ứng trong layout XML
         }
     }
 

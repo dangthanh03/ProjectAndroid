@@ -1,6 +1,8 @@
 package com.example.giaodienchinh_doan.AnotherNav;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.example.giaodienchinh_doan.Listener.UserListener;
 import com.example.giaodienchinh_doan.Model.User;
 import com.example.giaodienchinh_doan.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -51,7 +54,26 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder
             }
         });
 
-        Picasso.get().load("https://staticg.sportskeeda.com/editor/2023/07/93f89-16886348509045-1920.jpg?w=840").into(holder.inbox_img);
+        Picasso.get()
+                .load(item.getI())
+                .transform(new Transformation() {
+                    @Override
+                    public Bitmap transform(Bitmap source) {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(270); // Specify the angle of rotation here (e.g., 90 degrees)
+                        Bitmap rotatedBitmap = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+                        if (rotatedBitmap != source) {
+                            source.recycle();
+                        }
+                        return rotatedBitmap;
+                    }
+
+                    @Override
+                    public String key() {
+                        return "rotate";
+                    }
+                })
+                .into(holder.inbox_img);
     }
 
     @Override
