@@ -80,7 +80,19 @@
                 android:background="@drawable/round_corner_background"
 
                 android:hint="Nhập tin nhắn"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/ImageSentButton"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/baseline_broken_image_24"
+                android:padding="20dp"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <Button
                 android:id="@+id/send_button"

@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 public class DetailedActivity extends AppCompatActivity {
 
+
     ImageView detailedImg;
     TextView rating, name, description, price;
     Button addToCart, buyNow;

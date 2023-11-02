@@ -40,8 +40,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
- ProgressBar progressBar;
- RecyclerView ChatRec;
+    ProgressBar progressBar;
+    RecyclerView ChatRec;
     String Id;
     String Email;
     String Name;
@@ -49,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private FirebaseFirestore database;
     private List<ChatMessage> chatMessages;
-FirebaseFirestore firestore;
+    FirebaseFirestore firestore;
     String sender;
     EditText MessInput;
 
@@ -121,29 +121,33 @@ FirebaseFirestore firestore;
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
     private void loadMessages() {
-
         database.collection("Chats")
                 .whereEqualTo("senderId", sender)
                 .whereEqualTo("receiverId", Id)
                 .get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() ) {
+                    if (task.isSuccessful()) {
                         chatMessages.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            ChatMessage message = document.toObject(ChatMessage.class);
-                            chatMessages.add(message);
-                            Log.d("Message Loaded", message.message);
+                            try {
+                                ChatMessage message = document.toObject(ChatMessage.class);
+                                chatMessages.add(message);
+                                Log.d("Message Loaded", message.message);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.e("Load Messages", "Error converting document to object: " + e.getMessage());
+                            }
                         }
-
                         // Sắp xếp danh sách tin nhắn theo thời gian
-
+                        Collections.sort(chatMessages, (o1, o2) -> o1.dateTime.compareTo(o2.dateTime));
                         // In ra logcat
                         chatAdapter.notifyDataSetChanged();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
-        if(sender!=Id) {
+
+        if (!sender.equals(Id)) {
             database.collection("Chats")
                     .whereEqualTo("senderId", Id)
                     .whereEqualTo("receiverId", sender)
@@ -151,16 +155,21 @@ FirebaseFirestore firestore;
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                ChatMessage message = document.toObject(ChatMessage.class);
-                                chatMessages.add(message);
-                                Log.d("Message Loaded", message.message);
+                                try {
+                                    ChatMessage message = document.toObject(ChatMessage.class);
+                                    chatMessages.add(message);
+                                    Log.d("Message Loaded", message.message);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Log.e("Errr", "Error converting document to object: " + e.getMessage());
+                                }
                             }
 
                             Collections.sort(chatMessages, (o1, o2) -> o1.dateTime.compareTo(o2.dateTime));
 
                             chatAdapter.notifyDataSetChanged();
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Log.d("Error getting documents", "Error getting documents: ", task.getException());
                         }
                     });
         }
