@@ -1,10 +1,5 @@
 package com.example.giaodienchinh_doan.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,15 +8,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.giaodienchinh_doan.AdapterView.CartReviewAdapter;
-import com.example.giaodienchinh_doan.Fragment.ShopFragment;
 import com.example.giaodienchinh_doan.Model.CheckoutModel;
 import com.example.giaodienchinh_doan.Model.MyCartModel;
 import com.example.giaodienchinh_doan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +33,8 @@ public class CheckoutActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<MyCartModel> myCartModelList;
     List<CheckoutModel> checkoutModelList;
+    List<String> documentID;
+    List<MyCartModel> list;
     CartReviewAdapter cartReviewAdapter;
     TextView userName, userEmail, userPhone, userAddress, userCity;
     TextView quantity, totalprice;
@@ -62,14 +62,14 @@ public class CheckoutActivity extends AppCompatActivity {
         continuteshopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //CollectionReference collection = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid()).collection("User");
-                CollectionReference collection = firestore.collection("PopularProducts");
-                for (DocumentReference document : collection.getDocuments()) {
-                    // Xóa document
-                    document.delete();
-                }
+                int position;
+                count= cartReviewAdapter.getItemCount();
+                for(position=0;position<count;position++){
 
-                startActivity(new Intent(CheckoutActivity.this, ShopFragment.class));
+                DocumentReference documentReference = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
+                        .collection("User").document(myCartModelList.get(position).getId());
+                documentReference.delete();}
+                startActivity(new Intent(CheckoutActivity.this, MainActivity.class));
             }
         });
 
