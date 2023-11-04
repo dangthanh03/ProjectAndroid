@@ -22,6 +22,7 @@ import com.example.giaodienchinh_doan.Listener.ImageUploadCallback;
 import com.example.giaodienchinh_doan.Login;
 import com.example.giaodienchinh_doan.R;
 import com.example.giaodienchinh_doan.Model.User;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -135,6 +136,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(EditProfileActivity.this, Login.class);
                 startActivity(intent);
                 finish();
