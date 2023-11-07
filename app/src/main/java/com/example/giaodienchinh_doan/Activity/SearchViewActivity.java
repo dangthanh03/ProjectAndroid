@@ -40,10 +40,16 @@ public class SearchViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
-//        toolbar=findViewById(R.id.cart_toolbar_search);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        toolbar.setTitleTextAppearance(this, R.style.TitleTextAppearance_Bold);
+        toolbar=findViewById(R.id.search_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextAppearance(this, R.style.TitleTextAppearance_Bold);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         search_list_results = findViewById(R.id.search_list_results);
         search_list_results.hasFixedSize();

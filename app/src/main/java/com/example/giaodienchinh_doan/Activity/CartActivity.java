@@ -24,8 +24,10 @@ import com.example.giaodienchinh_doan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -64,6 +67,12 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextAppearance(this, R.style.TitleTextAppearance_Bold);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         buyNow=findViewById(R.id.buy_now);
 
@@ -85,64 +94,84 @@ public class CartActivity extends AppCompatActivity {
         myCartModelList = new ArrayList<>();
         mycartAdapter = new MyCartAdapter(this, myCartModelList);
         recyclerView.setAdapter(mycartAdapter);
-        //int totalAmount = mycartAdapter.totalAmount;
 
 
         firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
                 .collection("User").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
                     @SuppressLint("NotifyDataSetChanged")
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                                 MyCartModel myCartModel = doc.toObject(MyCartModel.class);
-                                myCartModelList.add(myCartModel);
+                                //myCartModelList.add(myCartModel);
                                 int totalprice=doc.getDouble("totalprice").intValue();
                                 totalAmount+=totalprice;
                                 mycartAdapter.notifyDataSetChanged();
-
                                 mycartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                                     @Override
                                     public void onItemRangeRemoved(int positionStart, int itemCount) {
                                         super.onItemRangeRemoved(positionStart, itemCount);
-
                                         // Lấy position của phần tử đã bị xóa
                                         int position = positionStart + itemCount - 1;
-
                                         // Nếu position của phần tử đã bị xóa không phải là phần tử đầu tiên
                                         if (position != 0) {
                                             // Cập nhật lại position của các phần tử còn lại
-                                            //myCartModelList.get(position).position = position - itemCount;
                                             mycartAdapter.notifyItemRangeChanged(position, myCartModelList.size() - position - 1);
                                         }
-
                                         // Tính tổng giá trị mới
                                         int totalAmount = 0;
                                         for (MyCartModel myCartModel : myCartModelList) {
                                             totalAmount += myCartModel.totalprice;
                                         }
-
                                         // Cập nhật textview tổng giá trị
                                         overAllAmount.setText("TOTAL: $"+String.valueOf(totalAmount));
                                     }
                                 });
+                                mycartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                                    @Override
+                                    public void onItemRangeChanged(int positionStart, int itemCount) {
+                                        super.onItemRangeChanged(positionStart, itemCount);
 
-//                                mycartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//                                    @Override
-//                                    public void onItemRangeRemoved(int positionStart, int itemCount) {
-//                                        super.onItemRangeRemoved(positionStart, itemCount);
-//                                        int totalAmount = 0;
-//                                        for (MyCartModel myCartModel : myCartModelList) {
-//                                            totalAmount += myCartModel.totalprice;
-//                                        }
-//
-//                                        // Cập nhật textview tổng giá trị
-//                                        overAllAmount.setText("TOTAL: $"+String.valueOf(totalAmount));
-//                                    }
-//                                });
+                                        // Nếu position của phân tử đã bị xóa là phân tử đầu tiên
+                                        if (positionStart == 0) {
+                                            // Cập nhật lại danh sách
+                                            myCartModelList.remove(positionStart);
+                                            // Thông báo cho adapter về những thay đổi
+                                            mycartAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+                                        }
+                                    }
+                                });
                             }
                         }
                         overAllAmount.setText("TOTAL: $"+String.valueOf(totalAmount));
+                    }
+                });
+
+        firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
+                .collection("User").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            // Handle error
+                            return;
+                        }
+
+                        // Update cart data
+                        myCartModelList.clear();
+                        for (DocumentSnapshot documentSnapshot : value.getDocuments()) {
+                            myCartModelList.add(documentSnapshot.toObject(MyCartModel.class));
+//                            myCartModelList.add(documentSnapshot.toObject(MyCartModel.class));
+                        }
+
+                        // Update adapter
+                        mycartAdapter.notifyDataSetChanged();
+
+                        // Calculate total amount
+                        int totalAmount = 0;
+                        for (MyCartModel myCartModel : myCartModelList) {
+                            totalAmount += myCartModel.totalprice;
+                        }
+                        overAllAmount.setText("TOTAL: $" + String.valueOf(totalAmount));
                     }
                 });
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -153,12 +182,10 @@ public class CartActivity extends AppCompatActivity {
 
             @Override
             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
             }
 
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
             }
         });
     }

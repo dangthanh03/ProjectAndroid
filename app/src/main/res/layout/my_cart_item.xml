@@ -94,18 +94,39 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Quantity: "
-                    android:textSize="16sp" />
+                <ImageButton
+                    android:id="@+id/minus_quantity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/white"
+                    android:padding="3dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/minusquan"
+                    android:layout_marginTop="2dp"/>
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Quantity: "-->
+<!--                    android:textSize="16sp" />-->
 
                 <TextView
                     android:id="@+id/total_quantity"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="quantity"
                     android:textSize="16sp" />
+                <ImageButton
+                    android:id="@+id/plus_quantity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/white"
+                    android:padding="3dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/plusquan"
+                    android:layout_marginTop="2dp"/>
 
             </LinearLayout>
 

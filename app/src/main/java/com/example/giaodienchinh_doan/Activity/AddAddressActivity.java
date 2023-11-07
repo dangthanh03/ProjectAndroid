@@ -32,7 +32,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,12 @@ public class AddAddressActivity extends AppCompatActivity {
         toolbar =findViewById(R.id.add_address_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         auth=FirebaseAuth.getInstance();
         firestore=FirebaseFirestore.getInstance();
@@ -102,13 +110,19 @@ public class AddAddressActivity extends AppCompatActivity {
         gocheckout=findViewById(R.id.ad_go_checkout);
         gocheckout.setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View v) {
                 String userName=name.getText().toString();
                 String userAddress=address.getText().toString();
                 String userCity=city.getText().toString();
                 String userEmail=email.getText().toString();
                 String userPhone=phoneNumber.getText().toString();
+
+                String saveCurrentTime, saveCurrentDate;
+                Calendar calForDate = Calendar.getInstance();
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate = new SimpleDateFormat("dd.MM.yyyy");
+                saveCurrentDate = currentDate.format(calForDate.getTime());
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat currentTime =new SimpleDateFormat("HH:mm:ss a");
+                saveCurrentTime=currentTime.format(calForDate.getTime());
 
                 SharedPreferences sharedPreferences = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -140,7 +154,8 @@ public class AddAddressActivity extends AppCompatActivity {
                 if(!userPhone.isEmpty()){
                     final_phone+=userPhone;
                 }
-                if(!userName.isEmpty() && !userAddress.isEmpty() && !userCity.isEmpty() && !userEmail.isEmpty() && !userPhone.isEmpty() && radiogroup.getCheckedRadioButtonId()!= -1 && policy_checkbox.isChecked()){
+                if(!userName.isEmpty() && !userAddress.isEmpty() && !userCity.isEmpty() && !userEmail.isEmpty() &&
+                        !userPhone.isEmpty() && radiogroup.getCheckedRadioButtonId()!= -1 && policy_checkbox.isChecked()){
                     Map<String,String> map = new HashMap<>();
                     map.put("userName",final_name);
                     map.put("userAddress",final_address);
@@ -148,8 +163,8 @@ public class AddAddressActivity extends AppCompatActivity {
                     map.put("userEmail",final_email);
                     map.put("userPhone",final_phone);
                     map.put("methodPayment", value);
-
-
+                    map.put("date",saveCurrentDate);
+                    map.put("time",saveCurrentTime);
 
                     firestore.collection("CurentUser").document(auth.getCurrentUser().getUid())
                             .collection("Address").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

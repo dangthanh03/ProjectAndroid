@@ -9,14 +9,19 @@ public class PopularProductsModel implements Serializable {
     int price;
     String img_url;
     String brand;
+    String status;
 
-    public PopularProductsModel(String description, String name, String rating, int price, String img_url, String brand) {
+    public PopularProductsModel(String description, String name, String rating, int price, String img_url, String brand, String status) {
         this.description = description;
         this.name = name;
         this.rating = rating;
         this.price = price;
         this.img_url = img_url;
         this.brand = brand;
+        this.status = status;
+    }
+
+    public PopularProductsModel() {
     }
 
     public String getDescription() {
@@ -67,7 +72,11 @@ public class PopularProductsModel implements Serializable {
         this.brand = brand;
     }
 
-    public PopularProductsModel() {
+    public String getStatus() {
+        return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

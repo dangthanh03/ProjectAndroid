@@ -38,15 +38,13 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
 
+    int newtotalprice = 0;
+
     public MyCartAdapter(Context context, List<MyCartModel> list) {
         this.context = context;
         this.list = list;
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-//        totalAmount = list.stream().mapToInt(MyCartModel::getTotalprice).sum();
-//        for (MyCartModel myCartModel : list) {
-//            totalAmount += myCartModel.totalprice;
-//        }
     }
 
     @NonNull
@@ -64,26 +62,60 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         holder.date.setText(list.get(position).getCurrentDate());
         holder.quantity.setText(list.get(position).getQuantity());
         holder.removefromcart.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // Check if the delete button is clicked
                 if (v.getId() == R.id.remove_from_cart) {
                     int position = holder.getAdapterPosition();
-
                     // Delete the item from firestore cloud
                     DocumentReference docRef = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
                             .collection("User").document(list.get(position).getId());
                     docRef.delete();
-
-
                     // Delete the item from recyclerview
                     list.remove(position);
                     notifyItemRemoved(position);
                 }
             }
         });
+        holder.minusquantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quan=holder.quantity.getText().toString();
+                int totalquantity=Integer.parseInt(quan);
+                String pprice=holder.price.getText().toString();
+                int price=Integer.parseInt(pprice);
+                if(totalquantity>1) {
+                    totalquantity--;
+                    holder.quantity.setText(String.valueOf(totalquantity));
+                    int newtotalprice=totalquantity*price;
+                    holder.totalprice.setText(String.valueOf(newtotalprice));
+                    DocumentReference docRef = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
+                            .collection("User").document(list.get(position).getId());
+                    docRef.update("quantity", String.valueOf(totalquantity));
+                    docRef.update("totalprice",newtotalprice);
 
+                }
+            }
+        });
+        holder.plusquantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quan=holder.quantity.getText().toString();
+                int totalquantity=Integer.parseInt(quan);
+                String pprice=holder.price.getText().toString();
+                int price=Integer.parseInt(pprice);
+                if(totalquantity<10){
+                    totalquantity++;
+                    holder.quantity.setText(String.valueOf(totalquantity));
+                    int newtotalprice=totalquantity*price;
+                    holder.totalprice.setText(String.valueOf(newtotalprice));
+                    DocumentReference docRef = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
+                            .collection("User").document(list.get(position).getId());
+                    docRef.update("quantity", String.valueOf(totalquantity));
+                    docRef.update("totalprice",newtotalprice);
+                }
+            }
+        });
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +134,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageButton removefromcart;
+        ImageButton removefromcart, plusquantity, minusquantity;
         ImageView imageView;
         TextView name, price, totalprice, date, quantity, id;
         public ViewHolder(@NonNull View itemView) {
@@ -114,6 +146,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             date=itemView.findViewById(R.id.current_date);
             quantity=itemView.findViewById(R.id.total_quantity);
             removefromcart=itemView.findViewById(R.id.remove_from_cart);
+            plusquantity=itemView.findViewById(R.id.plus_quantity);
+            minusquantity=itemView.findViewById(R.id.minus_quantity);
 
         }
     }

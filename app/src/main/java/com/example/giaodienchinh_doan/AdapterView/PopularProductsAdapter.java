@@ -50,7 +50,7 @@ public class PopularProductsAdapter extends RecyclerView.Adapter<PopularProducts
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return Math.min(list.size(),12);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

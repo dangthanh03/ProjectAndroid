@@ -1,0 +1,9 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/> <!-- Change this to your button color -->
+            <corners android:radius="50dp"/>
+            <stroke android:color="#000000" android:width="2dp"/> <!-- Change this to your border color and width -->
+        </shape>
+    </item>
+</selector>

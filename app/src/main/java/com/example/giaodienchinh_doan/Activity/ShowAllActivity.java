@@ -36,7 +36,6 @@ public class ShowAllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all);
 
         String brand=getIntent().getStringExtra("brand");
-        String status=getIntent().getStringExtra("status");
 
         firestore=FirebaseFirestore.getInstance();
         recyclerView=findViewById(R.id.show_all_rec);
@@ -45,23 +44,6 @@ public class ShowAllActivity extends AppCompatActivity {
         showAllAdapter=new ShowAllAdapter(this, showAllModelList);
         recyclerView.setAdapter(showAllAdapter);
 
-
-        if(status !=null && status.equalsIgnoreCase("new")){
-            firestore.collection("ShowAll").whereEqualTo("status","new")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(DocumentSnapshot doc :task.getResult().getDocuments()){
-                                    ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
-                                    showAllModelList.add(showAllModel);
-                                    showAllAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                    });
-        }
 
         if(brand == null || brand.isEmpty()){
             firestore.collection("ShowAll")
@@ -95,8 +77,8 @@ public class ShowAllActivity extends AppCompatActivity {
                         }
                     });
         }
-        if(brand !=null && brand.equalsIgnoreCase("Addidas")){
-            firestore.collection("ShowAll").whereEqualTo("brand","Addidas")
+        if(brand !=null && brand.equalsIgnoreCase("Adidas")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Adidas")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -160,10 +142,12 @@ public class ShowAllActivity extends AppCompatActivity {
                     });
         }
         Toolbar toolbar = findViewById(R.id.toolbar_show_all_title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                finish();
             }
         });
     }

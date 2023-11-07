@@ -47,7 +47,6 @@ public class ShopFragment extends Fragment {
     List<NewProductsModel> newProductsModelList;
     PopularProductsAdapter popularProductsAdapter;
     List<PopularProductsModel> popularProductsModelList;
-//    List<ShowAllModel> newProductsModelList;
     ShowAllAdapter showAllAdapter;
     List<ShowAllModel> showAllModelsList;
     FirebaseFirestore db;
@@ -67,19 +66,11 @@ public class ShopFragment extends Fragment {
         brandRecycleview=root.findViewById(R.id.rec_brand);
         newProductRecycleview = root.findViewById(R.id.new_product_rec);
         //popularRecycleView = root.findViewById(R.id.popular_rec);
-        showAllRecycleview=root.findViewById(R.id.popular_rec);
+//        showAllRecycleview=root.findViewById(R.id.popular_rec);
+        popularRecycleView=root.findViewById(R.id.popular_rec);
+
         newProductsShowAll=root.findViewById(R.id.newProducts_see_all);
         popularShowAll=root.findViewById(R.id.popular_see_all);
-
-//        searchIcon = root.findViewById(R.id.search_icon);
-//        searchIcon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ShopFragment.this.requireContext(), SearchViewActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
 
         newProductsShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +106,6 @@ public class ShopFragment extends Fragment {
 
                         } else {
                             Toast.makeText(getActivity(),""+task.getException(), Toast.LENGTH_SHORT).show();
-
-
                         }
                     }
                 });
@@ -124,29 +113,11 @@ public class ShopFragment extends Fragment {
 
         //New Products
         newProductRecycleview.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-//        newProductsModelList=new ArrayList<>();
-//        newProductRecycleview.setAdapter(showAllAdapter);
         newProductsModelList = new ArrayList<>();
         newProductsAdapter = new NewProductsAdapter(getContext(),newProductsModelList);
         newProductRecycleview.setAdapter(newProductsAdapter);
 
-
-//        db.collection("ShowAll").whereEqualTo("status","new")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if(task.isSuccessful()){
-//                            for(DocumentSnapshot doc :task.getResult().getDocuments()){
-//                                ShowAllModel showAllModel=doc.toObject(ShowAllModel.class);
-//                                newProductsModelList.add(showAllModel);
-//                                showAllAdapter.notifyDataSetChanged();
-//                            }
-//                        }
-//                    }
-//                });
-
-        db.collection("NewProducts")
+        db.collection("ShowAll").whereEqualTo("status","new")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -160,25 +131,15 @@ public class ShopFragment extends Fragment {
 
                         } else {
                             Toast.makeText(getActivity(),""+task.getException(), Toast.LENGTH_SHORT).show();
-
-
                         }
                     }
                 });
 
         //Popular Products
-//        popularRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-//        popularProductsModelList = new ArrayList<>();
-//        popularProductsAdapter = new PopularProductsAdapter(getContext(), popularProductsModelList);
-//        popularRecycleView.setAdapter(popularProductsAdapter);
-
-
-        showAllRecycleview.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        showAllModelsList = new ArrayList<>();
-        showAllAdapter =new ShowAllAdapter(getContext(), showAllModelsList);
-        showAllRecycleview.setAdapter(showAllAdapter);
-
-
+        popularRecycleView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        popularProductsModelList = new ArrayList<>();
+        popularProductsAdapter =new PopularProductsAdapter(getContext(), popularProductsModelList);
+        popularRecycleView.setAdapter(popularProductsAdapter);
 
 
         db.collection("ShowAll")
@@ -188,15 +149,13 @@ public class ShopFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document : task.getResult()){
-                                ShowAllModel showAllModel=document.toObject(ShowAllModel.class);
-                                showAllModelsList.add(showAllModel);
-                                showAllAdapter.notifyDataSetChanged();
+                                PopularProductsModel popularProductsModel=document.toObject(PopularProductsModel.class);
+                                popularProductsModelList.add(popularProductsModel);
+                                popularProductsAdapter.notifyDataSetChanged();
                             }
 
                         } else {
                             Toast.makeText(getActivity(),""+task.getException(), Toast.LENGTH_SHORT).show();
-
-
                         }
                     }
                 });

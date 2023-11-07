@@ -11,7 +11,7 @@
         android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="#D9E4ED"
         app:title="ShoeShop"
         android:layout_above="@+id/viewpager">
     </androidx.appcompat.widget.Toolbar>

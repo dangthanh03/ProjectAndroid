@@ -3,7 +3,6 @@ package com.example.giaodienchinh_doan.Model;
 import java.io.Serializable;
 
 public class ShowAllModel implements Serializable {
-
     String description;
     String name;
     String rating;
