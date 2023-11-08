@@ -6,15 +6,25 @@ public class NewProductsModel implements Serializable {
     String description;
     String name;
     String rating;
+    String status;
     int price;
     String img_url;
 
-    public NewProductsModel(String description, String name, String rating, int price, String img_url) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public NewProductsModel(String description, String name, String rating, int price, String img_url, String status) {
         this.description = description;
         this.name = name;
         this.rating = rating;
         this.price = price;
         this.img_url = img_url;
+        this.status = status;
     }
 
     public NewProductsModel(){

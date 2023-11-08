@@ -1,62 +1,70 @@
 package com.example.giaodienchinh_doan.sampledata;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.giaodienchinh_doan.AdapterView.NewProductsAdapter;
 import com.example.giaodienchinh_doan.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class PhotoAdapter extends BaseAdapter {
-    private ArrayList<Photo>photo_list;
-    private Context context;
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
+    Context context;
+    List<Photo>list;
 
-    public PhotoAdapter(ArrayList<Photo> photo_list, Context context) {
-        this.photo_list = photo_list;
+    public PhotoAdapter(Context context, List<Photo> list) {
         this.context = context;
+        this.list = list;
+    }
+
+    public PhotoAdapter() {
+
+    }
+
+
+    @NonNull
+    @Override
+    public PhotoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_display_tpl,parent,false));
     }
 
     @Override
-    public int getCount() {
-        return photo_list.size();
+    public void onBindViewHolder(@NonNull PhotoAdapter.ViewHolder holder, int position) {
+        Glide.with(context).load(list.get(position).getImgSrc()).into(holder.img_title);
+        holder.title.setText(list.get(position).getPhotoTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,ViewPhotoDetail.class);
+                intent.putExtra("photo_inf",list.get(position));
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
-    public Object getItem(int i) {
-        return photo_list.get(i);
+    public int getItemCount() {
+        return list.size();
     }
 
-    @Override
-    public long getItemId(int i) {
-        return photo_list.get(i).getId();
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        final MyView dataView;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (view == null) {
-            dataView = new MyView();
-            view = inflater.inflate(R.layout.photo_display_tpl,null);
-            dataView.iv_photo = view.findViewById(R.id.imv_photo);
-            dataView.tv_caption = view.findViewById(R.id.tv_title);
-            view.setTag(dataView);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        ImageView img_title;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = (TextView) itemView.findViewById(R.id.tv_title);
+            img_title = (ImageView) itemView.findViewById(R.id.imv_photo);
         }
-        else {
-            dataView = (MyView)view.getTag();
-        }
-        Picasso.get().load(photo_list.get(i).getImgSrc()).resize(1080,1440).centerCrop().into(dataView.iv_photo);
-        dataView.tv_caption.setText(photo_list.get(i).getPhotoTitle());
-        return view;
-    }
-    private static class MyView{
-        ImageView iv_photo;
-        TextView tv_caption;
     }
 }

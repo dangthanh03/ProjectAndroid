@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.giaodienchinh_doan.AnotherNav.InboxAdapter;
 import com.example.giaodienchinh_doan.DetailedActivity;
 import com.example.giaodienchinh_doan.Model.SearchViewModel;
@@ -21,11 +22,12 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder>  implements Filterable {
     Context context;
-    ArrayList<SearchViewModel>list;
-    ArrayList<SearchViewModel>listOld;
+    List<SearchViewModel> list;
+    List<SearchViewModel>listOld;
 
     public SearchAdapter(Context context, ArrayList<SearchViewModel> list) {
         this.context = context;
@@ -42,15 +44,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     @Override
     public void onBindViewHolder(@NonNull SearchAdapter.SearchViewHolder holder, int position) {
-        SearchViewModel item = list.get(position);
-        String imgUrl = item.getImg_url();
-        Picasso.get().load(imgUrl).into(holder.iv_search);
-        holder.tv_nameSearch.setText(item.getName());
+        Glide.with(context).load(list.get(position).getImg_url()).into(holder.iv_search);
+        holder.tv_nameSearch.setText(list.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(context, DetailedActivity.class);
-                intent.putExtra("detailed",list.get(position));
+                intent.putExtra("detailed", list.get(position));
                 context.startActivity(intent);
             }
         });

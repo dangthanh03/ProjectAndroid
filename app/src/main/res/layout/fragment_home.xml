@@ -28,14 +28,14 @@
         android:paddingLeft="20dp"
         android:paddingBottom="20dp"
         />
-    <GridView
-        android:id="@+id/grid_view_news"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_view_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/subheader_title"
         android:numColumns="1"
         >
-    </GridView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </RelativeLayout>

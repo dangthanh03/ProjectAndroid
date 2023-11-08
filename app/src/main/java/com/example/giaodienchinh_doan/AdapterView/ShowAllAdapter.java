@@ -16,11 +16,13 @@ import com.example.giaodienchinh_doan.DetailedActivity;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.example.giaodienchinh_doan.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHolder> {
     private Context context;
     private List<ShowAllModel> list;
+
 
     public ShowAllAdapter(Context context, List<ShowAllModel> list) {
         this.context = context;
@@ -39,6 +41,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
         holder.mCost.setText(String.valueOf(list.get(position).getPrice()));
         holder.mName.setText(list.get(position).getName());
 
+        // Kiểm tra xem documentId có null hay không
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,9 +50,8 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
-
-
     }
+
 
     @Override
     public int getItemCount() {

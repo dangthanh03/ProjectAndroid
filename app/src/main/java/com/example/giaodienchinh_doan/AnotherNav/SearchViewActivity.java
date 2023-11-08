@@ -2,6 +2,7 @@ package com.example.giaodienchinh_doan.AnotherNav;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,8 +10,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -45,7 +48,8 @@ public class SearchViewActivity extends AppCompatActivity {
         ProgressBar progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
-
+        Toolbar toolbar = findViewById(R.id.search_toolbar);
+        search_view_field = findViewById(R.id.search_view_field);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(progressBar);
         builder.setMessage("Searching...");
@@ -60,10 +64,6 @@ public class SearchViewActivity extends AppCompatActivity {
         searchAdapter = new SearchAdapter(SearchViewActivity.this,list);
         EventChangeListener();
         search_list_results.setAdapter(searchAdapter);
-        search_view_field = findViewById(R.id.search_view_field);
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        search_view_field.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        search_view_field.setMaxWidth(Integer.MAX_VALUE);
         search_view_field.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -83,7 +83,18 @@ public class SearchViewActivity extends AppCompatActivity {
                 return false;
             }
         });
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        search_view_field.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        search_view_field.setMaxWidth(Integer.MAX_VALUE);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
+
+
 
     private void EventChangeListener() {
         dbFirestore.collection("ShowAll").orderBy("name", Query.Direction.ASCENDING)

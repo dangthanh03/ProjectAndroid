@@ -14,11 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GiaoDienChinh_DoAn"
         tools:targetApi="31">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name=".AnotherNav.ShowAllNewProductActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name=".AnotherNav.SearchViewActivity"
@@ -49,14 +58,19 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ShowAllActivity"
             android:exported="true" />
         <activity
             android:name=".DetailedActivity"
             android:exported="true" />
-
+        <activity android:name=".AnotherNav.ChatActivity"
+            android:exported="true"/>
+        <activity android:name=".AnotherNav.CheckoutActivity"
+            android:exported="true"/>
+        <activity android:name=".AddAddressActivity"
+            android:exported="true"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

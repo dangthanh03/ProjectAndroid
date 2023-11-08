@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.giaodienchinh_doan.R;
 import com.example.giaodienchinh_doan.AdapterView.ShowAllAdapter;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,16 +35,12 @@ public class ShowAllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all);
 
         String brand=getIntent().getStringExtra("brand");
-
         firestore=FirebaseFirestore.getInstance();
         recyclerView=findViewById(R.id.show_all_rec);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         showAllModelList=new ArrayList<>();
         showAllAdapter=new ShowAllAdapter(this, showAllModelList);
         recyclerView.setAdapter(showAllAdapter);
-
-
-
         if(brand == null || brand.isEmpty()){
             firestore.collection("ShowAll")
                     .get()
@@ -78,8 +73,8 @@ public class ShowAllActivity extends AppCompatActivity {
                         }
                     });
         }
-        if(brand !=null && brand.equalsIgnoreCase("Addidas")){
-            firestore.collection("ShowAll").whereEqualTo("brand","Addidas")
+        if(brand !=null && brand.equalsIgnoreCase("Adidas")){
+            firestore.collection("ShowAll").whereEqualTo("brand","Adidas")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override

@@ -1,24 +1,16 @@
 package com.example.giaodienchinh_doan.sampledata;
 
-public class Photo {
-    private int id;
-    private String photoTitle;
-    private String description;
-    private String imgSrc;
+import java.io.Serializable;
 
-    public Photo(int id, String photoTitle, String description, String imgSrc) {
-        this.id = id;
+public class Photo implements Serializable{
+    String photoTitle;
+    String imgSrc;
+    String description;
+    public Photo(){}
+    public Photo(String photoTitle, String imgSrc, String description) {
         this.photoTitle = photoTitle;
-        this.description = description;
         this.imgSrc = imgSrc;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.description = description;
     }
 
     public String getPhotoTitle() {
@@ -29,19 +21,19 @@ public class Photo {
         this.photoTitle = photoTitle;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImgSrc() {
         return imgSrc;
     }
 
     public void setImgSrc(String imgSrc) {
         this.imgSrc = imgSrc;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

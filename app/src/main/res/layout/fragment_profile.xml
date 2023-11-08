@@ -8,20 +8,30 @@
     tools:context=".Fragment.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/imv_avatar"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:src="@drawable/ic_person_foreground"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardAv"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginVertical="20dp"
-        />
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
+        <ImageView
+            android:id="@+id/imv_avatar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_person_foreground"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            />
+    </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/name_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imv_avatar"
+        android:layout_below="@+id/CardAv"
         android:textSize="20dp"
         android:textStyle="bold"/>
     <Button
