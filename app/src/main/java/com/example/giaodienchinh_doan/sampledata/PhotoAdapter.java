@@ -12,17 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.giaodienchinh_doan.AdapterView.NewProductsAdapter;
 import com.example.giaodienchinh_doan.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     Context context;
-    List<Photo>list;
+    List<NewsModel>list;
 
-    public PhotoAdapter(Context context, List<Photo> list) {
+    public PhotoAdapter(Context context, List<NewsModel> list) {
         this.context = context;
         this.list = list;
     }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.giaodienchinh_doan.MainActivity;
+import com.example.giaodienchinh_doan.User;
 import com.example.giaodienchinh_doan.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -27,6 +29,8 @@ import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -91,28 +95,39 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this,"Enter password",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mAuth.createUserWithEmailAndPassword(email,pass)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, pass)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    // Tạo người dùng thành công trong Authentication
+                                    Toast.makeText(Register.this, "Account created.", Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(Register.this, "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent= new Intent(getApplicationContext(), com.example.giaodienchinh_doan.Login.class);
-                                    startActivity(intent);
-                                    finish();
+                                    // Tạo một người dùng mới trong Realtime Database
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        String userId = user.getUid();
+                                        User newUser = new User(email, "defaultName", "defaultPhone", userId, "FCM", "https://firebasestorage.googleapis.com/v0/b/shoe-f5860.appspot.com/o/images%2Flogo.jpg?alt=media&token=c77954b5-ca5d-454d-a736-4a4cd6cf92b0&_gl=1*1i7zkeo*_ga*MTU4ODI1NjA2OC4xNjk1NjkyOTM3*_ga_CW55HF8NVT*MTY5OTQ0NDE5OS40OC4xLjE2OTk0NDQyNjMuNTkuMC4w");
+                                        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                                        usersRef.child(userId).setValue(newUser)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    Log.d("TAG", "New user added to Realtime Database");
+                                                    // Chuyển sang màn hình đăng nhập
+                                                    Intent intent = new Intent(getApplicationContext(), com.example.giaodienchinh_doan.Login.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                })
+                                                .addOnFailureListener(e -> Log.e("TAG", "Failed to add user to Realtime Database: " + e.getMessage()));
+                                    }
 
                                 } else {
-                                    // If sign in fails, display a message to the user.
-
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-
+                                    // Nếu quá trình đăng ký thất bại, hiển thị thông báo cho người dùng.
+                                    Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
+
             }
         });
     }

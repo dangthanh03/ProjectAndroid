@@ -61,8 +61,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
         dbFirestore = FirebaseFirestore.getInstance();
         list = new ArrayList<SearchViewModel>();
-        searchAdapter = new SearchAdapter(SearchViewActivity.this,list);
         EventChangeListener();
+        searchAdapter = new SearchAdapter(SearchViewActivity.this,list);
         search_list_results.setAdapter(searchAdapter);
         search_view_field.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

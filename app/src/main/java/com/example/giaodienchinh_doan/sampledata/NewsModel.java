@@ -2,12 +2,12 @@ package com.example.giaodienchinh_doan.sampledata;
 
 import java.io.Serializable;
 
-public class Photo implements Serializable{
+public class NewsModel implements Serializable{
     String photoTitle;
     String imgSrc;
     String description;
-    public Photo(){}
-    public Photo(String photoTitle, String imgSrc, String description) {
+    public NewsModel(){}
+    public NewsModel(String photoTitle, String imgSrc, String description) {
         this.photoTitle = photoTitle;
         this.imgSrc = imgSrc;
         this.description = description;

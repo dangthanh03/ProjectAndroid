@@ -1,10 +1,12 @@
 package com.example.giaodienchinh_doan.AnotherNav;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,9 +17,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.giaodienchinh_doan.AnotherNav.ChatActivity;
+import com.example.giaodienchinh_doan.Fragment.ProfileFragment;
 import com.example.giaodienchinh_doan.ImageUploadCallback;
 import com.example.giaodienchinh_doan.Login;
 import com.example.giaodienchinh_doan.R;
@@ -38,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "Update email";
+    ImageView ToPrevious ;
     FirebaseAuth auth;
     TextView AddImage;
     Button button;
@@ -47,6 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
     ImageView ImgView;
     String CurrentImg;
     int HasChangedImg=0;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,13 @@ public class EditProfileActivity extends AppCompatActivity {
         AddImage=findViewById(R.id.AddImage);
 
         ImgView=findViewById(R.id.profileImage);
-
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         EditText name = findViewById(R.id.username);
         EditText email = findViewById(R.id.email);
@@ -75,7 +88,7 @@ public class EditProfileActivity extends AppCompatActivity {
             usersRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
+                    if (snapshot.exists()&& !isFinishing()) {
                         User userProfile = snapshot.getValue(User.class);
                         if (userProfile != null) {
                             name.setText(userProfile.displayName);

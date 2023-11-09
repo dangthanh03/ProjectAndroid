@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ShowAllModel implements Serializable {
 
-    String id ;
     String description;
     String name;
     String rating;
@@ -15,15 +14,14 @@ public class ShowAllModel implements Serializable {
     int price;
     String brand;
     String status;
-    List<String> size;
 
     public ShowAllModel() {
     }
 
 
 
-    public ShowAllModel(String id ,String description, String name, String rating, String img_url, int price, String brand, String status, List<String> size) {
-        this.id = id;
+    public ShowAllModel(String description, String name, String rating, String img_url, int price, String brand, String status) {
+
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -31,7 +29,7 @@ public class ShowAllModel implements Serializable {
         this.price = price;
         this.brand = brand;
         this.status = status;
-        this.size = size;
+
     }
 
     public String getDescription() {
@@ -92,20 +90,5 @@ public class ShowAllModel implements Serializable {
         this.status = status;
     }
 
-    public List<String> getSize() {
-        return size;
-    }
-
-    public void setSize(List<String> size) {
-        this.size = size;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
 }
