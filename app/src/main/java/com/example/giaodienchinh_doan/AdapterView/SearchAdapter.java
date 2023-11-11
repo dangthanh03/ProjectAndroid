@@ -14,13 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.giaodienchinh_doan.AnotherNav.InboxAdapter;
 import com.example.giaodienchinh_doan.DetailedActivity;
 import com.example.giaodienchinh_doan.Model.SearchViewModel;
 import com.example.giaodienchinh_doan.R;
-import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

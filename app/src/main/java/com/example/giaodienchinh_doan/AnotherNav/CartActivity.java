@@ -52,7 +52,7 @@ public class CartActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     Button addToCart, buyNow, removefromcart;
-    public int totalAmount=0;
+    public Float totalAmount= (float) 0;
 
     @SuppressLint({"MissingInflatedId"})
     @Override
@@ -105,7 +105,7 @@ public class CartActivity extends AppCompatActivity {
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                                 MyCartModel myCartModel = doc.toObject(MyCartModel.class);
                                 //myCartModelList.add(myCartModel);
-                                int totalprice=doc.getDouble("totalprice").intValue();
+                                Float totalprice=doc.getDouble("totalprice").floatValue();
                                 totalAmount+=totalprice;
                                 mycartAdapter.notifyDataSetChanged();
                                 mycartAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -120,9 +120,10 @@ public class CartActivity extends AppCompatActivity {
                                             mycartAdapter.notifyItemRangeChanged(position, myCartModelList.size() - position - 1);
                                         }
                                         // Tính tổng giá trị mới
-                                        int totalAmount = 0;
+                                        Float totalAmount = (float) 0;
                                         for (MyCartModel myCartModel : myCartModelList) {
                                             totalAmount += myCartModel.totalprice;
+                                            totalAmount=Math.round(totalAmount*100)/100f;
                                         }
                                         // Cập nhật textview tổng giá trị
                                         overAllAmount.setText("TOTAL: $"+String.valueOf(totalAmount));
@@ -168,9 +169,10 @@ public class CartActivity extends AppCompatActivity {
                         mycartAdapter.notifyDataSetChanged();
 
                         // Calculate total amount
-                        int totalAmount = 0;
+                        Float totalAmount = (float) 0;
                         for (MyCartModel myCartModel : myCartModelList) {
                             totalAmount += myCartModel.totalprice;
+                            totalAmount=Math.round(totalAmount*100)/100f;
                         }
                         overAllAmount.setText("TOTAL: $" + String.valueOf(totalAmount));
                     }

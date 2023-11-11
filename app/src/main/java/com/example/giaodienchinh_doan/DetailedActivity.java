@@ -298,7 +298,7 @@ public class DetailedActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     int num;
     int totalquantity=1;
-    int totalPrice=0;
+    Float totalPrice= (float) 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -452,7 +452,7 @@ public class DetailedActivity extends AppCompatActivity {
                                     documentReference.update("id", id);
                                     Toast.makeText(DetailedActivity.this, "Add to Cart", Toast.LENGTH_SHORT).show();
                                     addToCart.setText("Added to Cart");
-                                    addToCart.setTextColor(Color.GRAY);
+                                    addToCart.setTextColor(Color.LTGRAY);
                                     addToCart.setEnabled(false);
                                 }
                             }
@@ -467,18 +467,23 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalquantity<10){
                     totalquantity++;
                     quantity.setText(String.valueOf(totalquantity));
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if(newProductsModel!=null){
                     totalPrice=newProductsModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
-//                if(popularProductsModel!=null){
-//                    totalPrice=popularProductsModel.getPrice() * totalquantity;
-//                }
+                if(popularProductsModel!=null){
+                    totalPrice=popularProductsModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
+                }
                 if(showAllModel!=null){
                     totalPrice=showAllModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if (searchViewModel!=null){
                     totalPrice = searchViewModel.getPrice()*totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
             }
 
@@ -489,15 +494,19 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalquantity>1){
                     totalquantity--;
                     quantity.setText(String.valueOf(totalquantity));
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if(newProductsModel!=null){
                     totalPrice=newProductsModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if(popularProductsModel!=null){
                     totalPrice=popularProductsModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if(showAllModel!=null){
                     totalPrice=showAllModel.getPrice() * totalquantity;
+                    totalPrice=Math.round(totalPrice*100)/100f;
                 }
                 if (searchViewModel!=null){
                     totalPrice=searchViewModel.getPrice()*totalquantity;

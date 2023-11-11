@@ -22,6 +22,7 @@
         android:id="@+id/show_all_rec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

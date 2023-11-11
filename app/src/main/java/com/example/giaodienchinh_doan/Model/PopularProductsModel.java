@@ -6,11 +6,11 @@ public class PopularProductsModel implements Serializable {
     String description;
     String name;
     String rating;
-    int price;
+    Float price;
     String img_url;
     String brand;
 
-    public PopularProductsModel(String description, String name, String rating, int price, String img_url, String brand) {
+    public PopularProductsModel(String description, String name, String rating, Float price, String img_url, String brand) {
         this.description = description;
         this.name = name;
         this.rating = rating;
@@ -43,11 +43,11 @@ public class PopularProductsModel implements Serializable {
         this.rating = rating;
     }
 
-    public int getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

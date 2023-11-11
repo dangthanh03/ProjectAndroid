@@ -54,7 +54,8 @@ public class AddAddressActivity extends AppCompatActivity {
     CheckBox policy_checkbox;
     FirebaseFirestore firestore;
     String value;
-    int totalAmount, count;
+    int count;
+    Float totalAmount= (float) 0;
     FirebaseAuth auth;
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -202,7 +203,7 @@ public class AddAddressActivity extends AppCompatActivity {
                                 MyCartModel myCartModel = doc.toObject(MyCartModel.class);
                                 myCartModelList.add(myCartModel);
                                 cartReviewAdapter.notifyDataSetChanged();
-                                int price=doc.getDouble("totalprice").intValue();
+                                Float price=doc.getDouble("totalprice").floatValue();
                                 totalAmount+=price;
                             }
                             totalprice.setText("$"+String.valueOf(totalAmount));

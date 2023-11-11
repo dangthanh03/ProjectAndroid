@@ -1,9 +1,6 @@
 package com.example.giaodienchinh_doan.Model;
 
-import com.google.firebase.firestore.DocumentReference;
-
 import java.io.Serializable;
-import java.util.List;
 
 public class ShowAllModel implements Serializable {
 
@@ -11,7 +8,7 @@ public class ShowAllModel implements Serializable {
     String name;
     String rating;
     String img_url;
-    int price;
+    Float price;
     String brand;
     String status;
 
@@ -20,7 +17,7 @@ public class ShowAllModel implements Serializable {
 
 
 
-    public ShowAllModel(String description, String name, String rating, String img_url, int price, String brand, String status) {
+    public ShowAllModel(String description, String name, String rating, String img_url, Float price, String brand, String status) {
 
         this.description = description;
         this.name = name;
@@ -64,11 +61,11 @@ public class ShowAllModel implements Serializable {
         this.img_url = img_url;
     }
 
-    public int getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

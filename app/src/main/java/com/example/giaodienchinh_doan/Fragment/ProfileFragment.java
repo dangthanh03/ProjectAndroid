@@ -90,11 +90,6 @@ public class ProfileFragment extends Fragment {
         TextView name_user = view.findViewById(R.id.name_user);
         ImageView ava = view.findViewById(R.id.imv_avatar);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
-
-
-
         inbox_field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

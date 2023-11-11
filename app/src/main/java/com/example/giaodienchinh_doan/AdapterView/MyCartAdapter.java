@@ -38,7 +38,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
 
-    int newtotalprice = 0;
+    Float newtotalprice = (float) 0;
 
     public MyCartAdapter(Context context, List<MyCartModel> list) {
         this.context = context;
@@ -83,11 +83,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                 String quan=holder.quantity.getText().toString();
                 int totalquantity=Integer.parseInt(quan);
                 String pprice=holder.price.getText().toString();
-                int price=Integer.parseInt(pprice);
+                Float price=Float.parseFloat(pprice);
                 if(totalquantity>1) {
                     totalquantity--;
                     holder.quantity.setText(String.valueOf(totalquantity));
-                    int newtotalprice=totalquantity*price;
+                    Float newtotalprice=totalquantity*price;
+                    newtotalprice=Math.round(newtotalprice*100)/100f;
                     holder.totalprice.setText(String.valueOf(newtotalprice));
                     DocumentReference docRef = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
                             .collection("User").document(list.get(position).getId());
@@ -103,11 +104,12 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                 String quan=holder.quantity.getText().toString();
                 int totalquantity=Integer.parseInt(quan);
                 String pprice=holder.price.getText().toString();
-                int price=Integer.parseInt(pprice);
+                Float price=Float.parseFloat(pprice);
                 if(totalquantity<10){
                     totalquantity++;
                     holder.quantity.setText(String.valueOf(totalquantity));
-                    int newtotalprice=totalquantity*price;
+                    Float newtotalprice=totalquantity*price;
+                    newtotalprice=Math.round(newtotalprice*100)/100f;
                     holder.totalprice.setText(String.valueOf(newtotalprice));
                     DocumentReference docRef = firestore.collection("AddtoCart").document(auth.getCurrentUser().getUid())
                             .collection("User").document(list.get(position).getId());

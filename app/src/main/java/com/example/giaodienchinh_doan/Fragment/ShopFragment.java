@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.giaodienchinh_doan.AdapterView.ShowAllAdapter;
+import com.example.giaodienchinh_doan.AnotherNav.ShowAllNewProductActivity;
 import com.example.giaodienchinh_doan.Model.BrandsModel;
 import com.example.giaodienchinh_doan.Model.PopularProductsModel;
 import com.example.giaodienchinh_doan.Model.ShowAllModel;
@@ -29,7 +30,6 @@ import com.example.giaodienchinh_doan.ShowAllActivity;
 import com.example.giaodienchinh_doan.AdapterView.PopularProductsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShopFragment extends Fragment {
-    RecyclerView brandRecycleview, newProductRecycleview, popularRecycleView, showAllRecycleview;
-    TextView newProductsShowAll, popularShowAll;
+    RecyclerView brandRecycleview, newProductRecycleview, showAllRecyclerView;
+    TextView newProductsShowAll, showAll;
     BrandsAdapter brandsAdapter;
     BrandsModel brandsModel;
     List<BrandsModel> brandsModelList;
@@ -65,22 +65,21 @@ public class ShopFragment extends Fragment {
 
         brandRecycleview=root.findViewById(R.id.rec_brand);
         newProductRecycleview = root.findViewById(R.id.new_product_rec);
-        //popularRecycleView = root.findViewById(R.id.popular_rec);
-//        showAllRecycleview=root.findViewById(R.id.popular_rec);
-        popularRecycleView=root.findViewById(R.id.popular_rec);
+
+        showAllRecyclerView =root.findViewById(R.id.showall_rec);
 
         newProductsShowAll=root.findViewById(R.id.newProducts_see_all);
-        popularShowAll=root.findViewById(R.id.popular_see_all);
+        showAll =root.findViewById(R.id.show_see_all);
 
         newProductsShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), ShowAllActivity.class);
+                Intent intent=new Intent(getContext(), ShowAllNewProductActivity.class);
                 startActivity(intent);
             }
         });
 
-        popularShowAll.setOnClickListener(new View.OnClickListener() {
+        showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), ShowAllActivity.class);
@@ -136,10 +135,10 @@ public class ShopFragment extends Fragment {
                 });
 
         //Popular Products
-        popularRecycleView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        popularProductsModelList = new ArrayList<>();
-        popularProductsAdapter =new PopularProductsAdapter(getContext(), popularProductsModelList);
-        popularRecycleView.setAdapter(popularProductsAdapter);
+        showAllRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        showAllModelsList = new ArrayList<>();
+        showAllAdapter =new ShowAllAdapter(getContext(), showAllModelsList);
+        showAllRecyclerView.setAdapter(showAllAdapter);
 
 
         db.collection("ShowAll")
@@ -149,9 +148,9 @@ public class ShopFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document : task.getResult()){
-                                PopularProductsModel popularProductsModel=document.toObject(PopularProductsModel.class);
-                                popularProductsModelList.add(popularProductsModel);
-                                popularProductsAdapter.notifyDataSetChanged();
+                                ShowAllModel showAllProductsModel=document.toObject(ShowAllModel.class);
+                                showAllModelsList.add(showAllProductsModel);
+                                showAllAdapter.notifyDataSetChanged();
                             }
 
                         } else {

@@ -7,11 +7,11 @@ public class SearchViewModel implements Serializable {
     private String img_url;
     private String description;
     private String rating;
-    private int price;
+    private Float price;
 
     public SearchViewModel(){}
 
-    public SearchViewModel(String name, String img_url, String description, String rating, int price) {
+    public SearchViewModel(String name, String img_url, String description, String rating, Float price) {
         this.name = name;
         this.img_url = img_url;
         this.description = description;
@@ -51,11 +51,11 @@ public class SearchViewModel implements Serializable {
         this.rating = rating;
     }
 
-    public int getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 }
