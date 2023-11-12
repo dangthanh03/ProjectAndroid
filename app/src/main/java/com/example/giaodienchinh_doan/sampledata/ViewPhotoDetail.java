@@ -34,7 +34,11 @@ public class ViewPhotoDetail extends AppCompatActivity {
         tv_detail_description=findViewById(R.id.tv_detail_description);
         shop_now_btn = findViewById(R.id.shop_now_btn);
 
-        Glide.with(getApplicationContext()).load(newsModelModel.getImgSrc()).into(imageView);
+        Glide.with(getApplicationContext())
+                .load(newsModelModel.getImgSrc())
+                .override(1000,1000)
+                .centerCrop()
+                .into(imageView);
         tv_detail_title.setText(newsModelModel.getPhotoTitle());
         tv_detail_description.setText(newsModelModel.getDescription());
 

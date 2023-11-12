@@ -38,7 +38,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull PhotoAdapter.ViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position).getImgSrc()).into(holder.img_title);
+        Glide.with(context)
+                .load(list.get(position).getImgSrc())
+                .override(1080,1920)
+                .centerCrop()
+                .into(holder.img_title);
         holder.title.setText(list.get(position).getPhotoTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
